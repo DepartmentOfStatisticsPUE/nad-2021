@@ -1,0 +1,130 @@
+---
+title: "Wykład 4 -- notatki"
+author: "Maciej Beręsewicz"
+output:
+  html_notebook: default
+  word_document: default
+---
+
+Na dzisiejszych zajęciach zajmiemy się analizą spółek giełdowych, wśród których znajdowały się spółki będące w stanie upadłości. Zadaniem naszym jest zweryfikowanie, które zmienne mogą być użyte do przewidywania oraz czy są jakieś graniczne wartości wykorzystanych zmiennych, po których można takie spółki rozróżnić.
+
+Aby wstawić miejsce, w którym możemy pisać kody należy użyć skrótu CTRL + ALT + I.
+
+```{r}
+library(readxl)
+#install.packages("tidyverse") ## kolekcja pakietów do analizy danych
+library(tidyverse)
+```
+
+
+Zacznijmy od wczytania danych o spółkach
+
+```{r}
+spolki <- read_excel(path = "../data-raw/spolki_akcyjne_bankrut.xlsx",
+                     col_names = c("id", "roa", "zysk_bilans", "wsk_bie_ply", "zob_akt", "rotacja", "grupa"), 
+                     skip = 1)
+spolki
+```
+
+Robimy proste podsumowanie aby sprawdzić jak dużo mamy spółek zdrowych i chorych. Zrobimy to na dwa sposoby:
+
+1. z wykorzystaniem funkcji table z "czystego R"
+
+```{r}
+table(spolki$grupa)
+```
+
+2. z wykorzystaniem pakietu dplyr i funkcji count
+
+```{r}
+count(spolki, grupa, name = "liczba")
+```
+
+Mamy następujące hipotezy, które będziemy weryfikowali
+
+1. wsk_bie_ply jeżeli jest < 1.2 -> możliwy wskaźnik bankructwa
+2. zob_akt im wyższa wartość tym "większe problemy"
+3. roa i zysk_bilans < 0 -> może nas niepokoić
+
+Jeżeli chcemy sprawdzić czy dwie lub więcej grup różnią się ze względu na jakieś zmienne, najlepiej użyć wykres pudełkowy (boxplot)
+
+```{r}
+par(mfrow = c(2, 2))
+boxplot(roa ~ grupa, data = spolki, main = "ROA")
+boxplot(zysk_bilans ~ grupa, data = spolki, main = "Zysk do bilansu")
+boxplot(wsk_bie_ply ~ grupa, data = spolki, main = "Wskaźnik bieżącej płynności")
+boxplot(zob_akt ~ grupa, data = spolki, main = "Zobowiązania krótkoterminowe")
+```
+
+```{r}
+boxplot(log(zob_akt) ~ grupa, data = spolki, main = "Zobowiązania krótkoterminowe")
+```
+
+Sprawdźmy jak wyglądają zależności między danymi wykorzystując wykres rozrzutu
+
+```{r}
+pairs(spolki[, 2:6])
+round(cor(spolki[, 2:6], method = "spearman"), 2)
+```
+
+1. wsk_bie_ply jeżeli jest < 1.2 -> możliwy wskaźnik bankructwa
+
+count(zbiór danych, zmienna grupująca/zmienne grupujące)
+
+```{r}
+count(spolki, grupa, wsk = wsk_bie_ply <= 1.2)
+```
+
+2. zob_akt im wyższa wartość tym "większe problemy"
+
+```{r}
+aggregate(zob_akt ~ grupa, data = spolki, FUN = median)
+aggregate(zob_akt ~ grupa, data = spolki, FUN = mean)
+```
+
+
+3. roa i zysk_bilans < 0 -> może nas niepokoić
+
+```{r}
+count(spolki, grupa, roa < 0)
+count(spolki, grupa, zysk_bilans < 0)
+```
+
+
+Średnia wartość roa wynosiła -0.07 co oznacza, że ... (wpisane ręcznie)
+
+```{r, echo=FALSE}
+wynik <- round(mean(spolki$roa),4)
+```
+
+
+Średnia wartość roa wynosiła `r wynik` co oznacza, że ... (wyliczone)
+
+
+# Potokowe przetwarzanie danych
+
+h( f( g(x) ) )
+
+x > g() > f() > h()
+
+zaparkuj( jedź_prosto( skręc_w_lewo(samochód) ) )
+
+samochód > skręć_w_lewo > jedź_prosto > zaparkuj
+
+
+```{r}
+round(mean(spolki$roa),3) ## wersja zagnieżdżona
+
+spolki$roa %>% mean(.) %>% round(.,3) ## wersja z przetwarzaniem potokowym
+```
+
+Wykorzystamy pakiet dplyr do policzenia podsumowania
+```{r}
+summarise( group_by(spolki, grupa),  m = median(roa))
+
+spolki %>% 
+  group_by(grupa) %>%  
+  summarise(m = median(roa))
+```
+
+
