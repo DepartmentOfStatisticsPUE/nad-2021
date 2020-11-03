@@ -127,4 +127,84 @@ spolki %>%
   summarise(m = median(roa))
 ```
 
+```{r}
+head(spolki)
+```
+
+Robimy wprowadzenie pakietu ggplot2
+
+
+```{r}
+ggplot(data = spolki, aes(x = grupa, y = zysk_bilans, color = grupa)) + 
+  geom_boxplot(width = 0.5) +
+  geom_jitter(width = 0.2, shape = 6) +
+  stat_summary(fun = mean, color = "red") + 
+  stat_summary(fun = max, color = "blue") + 
+  stat_summary(fun = min, shape = 2) + 
+  labs(x = "Grupa", y = "Zysk do sumy bilansowej", 
+       title = "Porównanie grup firm według wskaźnika: zysk do sumy bilansowej",
+       caption = "Źródło: opracowanie własne.")
+```
+
+```{r}
+spolki %>%
+  mutate(roa_grupa = roa >= 0) %>%
+  ggplot(data = ., aes(x = roa_grupa, y = zysk_bilans, color = roa_grupa)) + 
+  geom_boxplot(width = 0.5) +
+  geom_jitter(width = 0.2, shape = 6) +
+  stat_summary(fun = mean, color = "red") + 
+  stat_summary(fun = max, color = "blue") + 
+  stat_summary(fun = min, shape = 2) + 
+  labs(x = "Grupa", y = "Zysk do sumy bilansowej", 
+       title = "Porównanie grup firm według wskaźnika: zysk do sumy bilansowej",
+       caption = "Źródło: opracowanie własne.") +
+  facet_wrap(~grupa)
+```
+
+Histogram
+
+-- rotacja - rotacja aktywów (w dniach)=średnia wartość majątku/przychody ze sprzedaży netto * liczba dni
+```{r}
+ggplot(data  = spolki, aes(x = rotacja)) + 
+  geom_histogram(fill = "white", color = "black") +
+  geom_rug() + 
+  facet_wrap(~grupa, nrow = 2)
+```
+
+Wykres rozrzutu
+
+```{r}
+ggplot(data = spolki, aes(x = roa, y= zysk_bilans)) + 
+  geom_point() + 
+  facet_wrap(~grupa)
+
+ggplot(data = spolki, aes(x = roa, y= zysk_bilans, color = grupa)) + 
+  geom_point() +
+  geom_hline(yintercept = 0, linetype = "dashed") +
+  geom_vline(xintercept = 0, linetype = "dashed")
+```
+
+W jaki sposób możemy zapisywać wykresy
+
+```{r}
+wykres_rozrzutu <- ggplot(data = spolki, aes(x = roa, y= zysk_bilans, color = grupa)) + 
+  geom_point() +
+  geom_hline(yintercept = 0, linetype = "dashed") +
+  geom_vline(xintercept = 0, linetype = "dashed")
+
+ggsave(plot = wykres_rozrzutu, filename = "wykres_rozrzutu.png", 
+       width = 15, height = 10, units = "cm")
+
+ggsave(plot = wykres_rozrzutu, filename = "wykres_rozrzutu.pdf")
+
+getwd() ## get working directory
+```
+
+
+Zapis do obiektu typu RDS możliwy jest tylko i wyłącznie dla jednego obiektu
+
+```{r}
+getwd()
+saveRDS(object = spolki, file = "../data/spolki_bankructwa.rds")
+```
 

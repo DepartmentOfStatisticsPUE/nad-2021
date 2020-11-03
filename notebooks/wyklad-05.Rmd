@@ -1,0 +1,12 @@
+---
+title: "Testowanie hipotez"
+output: html_notebook
+---
+
+Wczytujemy dane
+
+```{r}
+spolki <- readRDS("../data/spolki_bankructwa.rds")
+spolki
+```
+
