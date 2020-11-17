@@ -5,5 +5,214 @@ output: html_notebook
 
 ```{r}
 install.packages(c("openxlsx", "officer", "rvg"))
+
+library(openxlsx)
+library(officer)
+#library(rvg)
 ```
+
+Pakiet `openxlsx` jest to pakiet, który umożliwia:
+
+- wczytywanie plików MS Excel z rozszerzeniem xlsx
+- zapisywanie plików MS Excel z rozszerzeniem xlsx
+
+Jeżeli wystąpi potrzeba wczytania danych ze starego formatu do tego służy pakiet `readxl`.
+Również jeżeli jest potrzeba zapisu pliku do starego rozszerzenia to mozna wykorzystać pakiet `writexl`
+
+Jeżeli chcelibyśmy zapisać obiekt (np. data.frame) do pliku MS Excel należy użyć funkcji `write.xlsx`.
+
+```{r}
+write.xlsx(x = mtcars, file = "../results/1-plik-mtcars.xlsx", asTable = TRUE)
+```
+
+
+Zadaniem jest zapisanie nie tylko jednej ramki danych ale chcielibyśmy utworzyć więcej arkuszy w skoroszycie MS Excel.
+
+```{r}
+lista_danych <- list("Zbior mtcars" = mtcars,
+                     "Iris - 2" = iris)
+str(lista_danych,1)
+
+write.xlsx(x = lista_danych, file = "../results/2-wiele-tabel.xlsx", asTable = TRUE)
+```
+
+
+W pakiecie openxlsx są następujące globalne opcje -- działają na całym skoroszycie czyli dla wszystkich arkuszy
+
+ + openxlsx.borderColour
+ + openxlsx.borderStyle
+ + openxlsx.dateFormat
+ + openxlsx.datetimeFormat 
+ + openxlsx.numFmt
+ + openxlsx.paperSize
+ + openxlsx.orientation
+ 
+ 
+```{r}
+options("openxlsx.numFmt" = "0.00")
+write.xlsx(x = lista_danych, file = "../results/3-formatowanie.xlsx", asTable = TRUE)
+```
+ 
+Naszym zadaniem jest utworzenie pliku MS Excel, który będzie zawierał:
+
+- arkusz ze spisem treści
+- arkusz z danymi
+- arkusz z jakimś obliczeniami na podstawie danych (będziemy chcieli użyć formuł excela)
+- arkusz z danymi ale z naniesionym formatowaniem warunkowym
+
+```{r}
+skoroszyt <- createWorkbook(creator = "Maciej", title = "NAD2", category = "Raport")
+skoroszyt
+```
+
+Jak dodać arkusz do takiego obiektu `skoroszyt`? Należy użyć funkcji `addWorksheet`
+
+```{r}
+#removeWorksheet(wb = skoroszyt, sheet = "Spis treści") ## usuwa istniejacy arkusz
+
+addWorksheet(wb = skoroszyt, sheetName = "Spis treści", gridLines = FALSE, tabColour = "red")
+
+## zapiszemy obiekt skoroszyt do pliku
+
+saveWorkbook(wb = skoroszyt, file = "../results/4-krok-po-kroku.xlsx", overwrite = TRUE)
+```
+
+Stworzmy kolejny arkusz o nazwie "Dane źródłowe", który będzie zawierał ramkę danych mtcars. Jakie mamy wymogi dotyczące tego arkusza:
+
++ dane mają być tabelą, której kolor sobie sami chcemy określić
++ chce zablokować 1 wiersz tabeli (stały wiersz)
+
+```{r}
+## dodania arkusza
+addWorksheet(wb = skoroszyt, sheetName = "Dane źródłowe")
+
+## chcemy zapisać dane do naszego arkusza  -- writeData albo writeDataTable
+writeDataTable(wb = skoroszyt, sheet = "Dane źródłowe", x = mtcars, 
+               colNames = TRUE, tableStyle = "TableStyleMedium3")
+
+## chcemy zablokować pierwszy wiersz
+freezePane(wb = skoroszyt, sheet = "Dane źródłowe", firstRow = TRUE)
+
+saveWorkbook(wb = skoroszyt, file = "../results/4-krok-po-kroku.xlsx", overwrite = TRUE)
+```
+
+
+Tworzymy nowy arkusz, w którym dokonywane będą obliczenia wykorzystujace funkcje MS Excel
+
+```{r}
+## tworzymy nowy arkusz o nazwie "obliczenia"
+
+addWorksheet(wb = skoroszyt, sheetName = "Obliczenia", tabColour = "black")
+
+## wpisujemy do określonych komórek wartości
+writeData(wb = skoroszyt, sheet = "Obliczenia", xy = c("A", 2), x = "Zmienna 1:")
+writeData(wb = skoroszyt, sheet = "Obliczenia", xy = c("A", 3), x = "Zmienna 2:")
+writeData(wb = skoroszyt, sheet = "Obliczenia", xy = c("B", 2), x = 10)
+writeData(wb = skoroszyt, sheet = "Obliczenia", xy = c("B", 3), x = 5)
+
+## żeby dodać formułę musimy skorzystac z funkcji writeFormula
+writeData(wb = skoroszyt, sheet = "Obliczenia", xy = c("A", 5), x = "Wynik:")
+
+writeFormula(wb = skoroszyt, sheet = "Obliczenia", xy = c("B", 5), x = "ROUND(SQRT(B2*B3), 3)")
+
+saveWorkbook(wb = skoroszyt, file = "../results/4-krok-po-kroku.xlsx", overwrite = TRUE)
+
+```
+
+
+Tworzymy arkusz, w którym będziemy nakładali formatowanie warunkowe
+
+```{r}
+## dodajemy arkusz
+addWorksheet(wb = skoroszyt, sheet = "Formatowanie")
+## wpisujemy dane
+writeData(wb = skoroszyt, sheet = "Formatowanie", x = mtcars)
+
+## dodajemy formatowanie warunkowe 
+conditionalFormatting(wb = skoroszyt, 
+                      sheet = "Formatowanie",
+                      cols = 3,
+                      rows = 2:(nrow(mtcars)+1),
+                      type = "databar")
+
+## chcemy aby komórki były wypełnione jakimś kolorem na podstawie okreslonego warunku
+## 1. trzeba utworzyć format
+nasz_format <- createStyle(bgFill = "#FFC7CE") ## wypełnienie komórki
+
+## 2. nadajemy formatowanie warunkowe 
+conditionalFormatting(wb = skoroszyt,
+                      sheet = "Formatowanie",
+                      cols = 1,
+                      rows = 2:(nrow(mtcars)+1),
+                      #rule = ">20",
+                      rule = paste(">", median(mtcars$mpg)),
+                      style = nasz_format)
+
+saveWorkbook(wb = skoroszyt, file = "../results/4-krok-po-kroku.xlsx", overwrite = TRUE)
+```
+
+
+Został nam spis treści do uzupełnienia wraz z tytułem "Spis treści" 
+
+1. napisać w B5 tekst "Spis treści" 
+2. tekst był sformatowany
+3. stworzymy spis treści
+
+```{r}
+names(skoroszyt) ## nazwy arkuszy
+```
+
+```{r}
+writeData(wb = skoroszyt, sheet = "Spis treści", x = "Spis Treści", xy = c("B", 5))
+
+## tworzymy styl w jakim będzie zapisany tekst spis treści
+spis_format <- createStyle(fontName = "Braggadocio", fontSize = 20, textRotation = 15)
+
+## dodajemy ten format do danej komórki
+addStyle(wb = skoroszyt, sheet = "Spis treści", style = spis_format, rows = 5, cols = 2)
+
+saveWorkbook(wb = skoroszyt, file = "../results/4-krok-po-kroku.xlsx", overwrite = TRUE)
+```
+
+Dodajemy do arkusza spis treści odwołania do konkretnych arkuszy
+
+```{r}
+writeFormula(wb = skoroszyt, sheet = "Spis treści", xy = c("B", 7), 
+             x = makeHyperlinkString(sheet = "Dane źródłowe", row = 5, col = 3,
+                                     text = "Rozdział 1: dane źródłowe"))
+
+writeFormula(wb = skoroszyt, sheet = "Spis treści", xy = c("B", 8), 
+             x = makeHyperlinkString(sheet = "Obliczenia", 
+                                     text = "Rozdział 2: obliczenia"))
+
+writeFormula(wb = skoroszyt, sheet = "Spis treści", xy = c("B", 9), 
+             x = makeHyperlinkString(sheet = "Formatowanie", 
+                                     text = "Rozdział 3: formatowanie"))
+
+
+saveWorkbook(wb = skoroszyt, file = "../results/4-krok-po-kroku.xlsx", overwrite = TRUE)
+
+```
+
+Sum of x	Average of x2
+55	5,5
+
+Naszym zadaniem jest:
+
+1. wczytać istniejacy plik
+2. podmienić dane w tabeli
+3. zapiszemy tabelę
+
+```{r}
+pivot <- loadWorkbook(file = "../results/tabela-przestawna.xlsx")
+pivot
+```
+
+```{r}
+## podmieniamy wartość w komórce A7
+writeData(wb = pivot, sheet = "dane", xy = c("A", 7), x = 15)
+## zapisujemy plik
+saveWorkbook(wb = pivot, file = "../results/tabela-przestawna-2.xlsx", overwrite = TRUE)
+```
+
 
