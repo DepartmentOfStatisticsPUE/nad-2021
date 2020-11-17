@@ -215,4 +215,24 @@ writeData(wb = pivot, sheet = "dane", xy = c("A", 7), x = 15)
 saveWorkbook(wb = pivot, file = "../results/tabela-przestawna-2.xlsx", overwrite = TRUE)
 ```
 
+Tabela przestawna z danymi w postaci DataTable (tabela o nazwie `pivot`)
+
+```{r}
+pivot2 <- loadWorkbook("../results/5-przestawna.xlsx")
+pivot2
+```
+```{r}
+## lista tabel
+getTables(wb = pivot2, sheet = "dane")
+
+## usuwamy tabelę
+removeTable(wb = pivot2, sheet = "dane", table = "pivot")
+
+## zapisujemy dane pod taką samą nazwą
+
+writeDataTable(wb = pivot2, sheet = "dane", x = rbind(mtcars, mtcars, mtcars), tableName = "pivot")
+
+## zapisujemy plik
+saveWorkbook(wb = pivot2, file = "../results/5-przestawna-2.xlsx")
+```
 
