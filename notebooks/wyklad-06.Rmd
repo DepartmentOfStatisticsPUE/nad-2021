@@ -221,6 +221,8 @@ Tabela przestawna z danymi w postaci DataTable (tabela o nazwie `pivot`)
 pivot2 <- loadWorkbook("../results/5-przestawna.xlsx")
 pivot2
 ```
+
+
 ```{r}
 ## lista tabel
 getTables(wb = pivot2, sheet = "dane")

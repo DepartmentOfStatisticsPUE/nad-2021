@@ -1,0 +1,56 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(readxl)
+library(tidyverse)
+```
+
+```{r}
+spolki <- read_excel(path = "../data-raw/spolki_akcyjne_bankrut.xlsx",
+                     col_names = c("id", "roa", "zysk_bilans", "wsk_bie_ply", "zob_akt", "rotacja", "grupa"), 
+                     skip = 1)
+spolki
+```
+
+Aby wykonać test jednej lub dwóch średnich należy zastosować funkcję `t.test()`
+
+```{r}
+t.test(x = spolki$roa, mu = 0)
+```
+
+Opis wydruku
+
+  + `One Sample t-test` -- informacja, że wykonano test jednej średniej
+  + `data:  spolki$roa` -- jaki wektor był testowany
+  + `t = -4.1361, df = 179, p-value = 5.426e-05` -- statystyka testowa (t)
+  + `alternative hypothesis: true mean is not equal to 0` -- jaka jest hipoteza alternatywna
+  + `95 percent confidence interval:  -0.10557559 -0.03737487`  -- 95% prawdopodobieństwem średnia w populacji jest w tym przedziale 
+  + `sample estimates: mean of x = -0.07147523 ` -- średnia z próby
+  
+```{r}
+t.test(x = spolki$roa, mu = 0, alternative = "less") 
+```
+
+Porównanie dwóch średnich
+
+```{r}
+t.test(formula = roa ~ grupa, data = spolki)
+```
+
++ `Welch Two Sample t-test` -- test porównania dwóch grup, a dokładnie porównania dwóch średnich przy założeniu, że wariancje są różne (`var.equal = FALSE`) oraz grupy zawierają różne spółki (`paired = FALSE`)
++ `data:  roa by grupa` -- analizujemy roa wg zmiennej grupa
++ `t = -6.6073, df = 111.69, p-value = 1.385e-09` -- wartość statystyki testowej
++ `alternative hypothesis: true difference in means is not equal to 0` -- 
++ `95 percent confidence interval:  -0.2667545 -0.1436740` -- przedział ufności dla różnicy (bankruci - zdrowych) 
++ `sample estimates:` średnie z próby 
+
+```{r}
+t.test(formula = roa ~ grupa, data = spolki, alternative = "less")
+```
+
+
+
+

@@ -1,0 +1,150 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+
+```{r}
+library(officer)
+library(rvg)
+library(tidyverse)
+```
+
+W pakiecie officer mamy `read_pptx`
+
++ `read_pptx()` -- to tworzymy nowy szablon prezentacji
++ `read_pptx(path = "ścieżka")` -- wczytujemy plik power point z dysku
+
+```{r}
+prez <- read_pptx()
+prez
+```
+
+Funkcja `layout_summary` podsumowuje typy slajdów, które są możliwe do wstawienia
+
+```{r}
+layout_summary(prez)
+```
+
+Jak należy pracować z pakietem officer
+
++ tworzymy plik z funkcją `read_pptx()` %>%
+  + dodajemy slajd z funkcją `add_slide()` %>% 
+    + uzupełniamy slajd z funkcjami zaczynającymi się od `ph_*` %>%
+    + uzupełniamy slajd z funkcjami zaczynającymi się od `ph_*` %>%
+    + uzupełniamy slajd z funkcjami zaczynającymi się od `ph_*` %>%
+  + dodajemy slajd z funkcją `add_slide()` %>%
+    + uzupełniamy slajd z funkcjami zaczynającymi się od `ph_*` %>%
+    + uzupełniamy slajd z funkcjami zaczynającymi się od `ph_*` %>%
+    + uzupełniamy slajd z funkcjami zaczynającymi się od `ph_*` %>%
+  + dodajemy slajd z funkcją `add_slide()` %>%
+    + uzupełniamy slajd z funkcjami zaczynającymi się od `ph_*` %>%
+    + uzupełniamy slajd z funkcjami zaczynającymi się od `ph_*` %>%
+    + uzupełniamy slajd z funkcjami zaczynającymi się od `ph_*` %>%
+  + zapisujemy z funkcją `print()`
+  
+  
+Zakładamy, że nasza prezentacja będzie składała się z następujących slajdów:
+
++ slajd tytułowy -- załatwione
++ slajd z tytułem i treścią
++ slajd z wykresem z ggplot2
++ slajd z tabelą
++ slajd na pożegnanie
+
+
+```{r}
+prez <- prez %>%
+  add_slide(layout = "Title Slide", master = "Office Theme") %>%
+    ph_with(value = "Prezentacja z NAD2",
+            location = ph_location_type(type = "ctrTitle"))
+
+print(prez, target = '../results/prezentacja-nad2.pptx')
+```
+
+Dodajmy slajd z tytułem oraz treścią w postaci listy punktowanej
+
+```{r}
+prez <- prez %>%
+  add_slide(layout = "Title and Content", master = "Office Theme") %>%
+  ph_with(value = "Plan prezentacji", 
+          location = ph_location_type(type = "title")) %>%
+  ph_with(value = c("Wstęp", "Analiza", "Podsumowanie"),
+          location = ph_location_type(type = "body"))
+
+print(prez, target = '../results/prezentacja-nad2.pptx')
+```
+
+
+Chcemy dodać slajd z wykresem z pakietu ggplot2 ale chcielibyśmy aby ten wykres był edytowalny.
+
+```{r}
+wykres <- ggplot(data = mtcars, aes(x = wt, y = mpg, color = factor(am))) + 
+  geom_point() + 
+  geom_smooth(method = "lm") +
+  scale_color_brewer(type = "qual", palette = "Set1") + 
+  labs(x = "Waga", y = "Liczba mil na galon", 
+       title = "Zależność między wagą, a liczbą mil, którą mogą przejechać samochody",
+       caption = "Źródło: opracowanie własne",
+       color = "Automatyczna")
+
+wykres
+```
+
+Dodajemy slajd z wykresem, którego nie możemy edytować
+
+```{r}
+prez <- prez %>%
+  add_slide(layout = "Title and Content", master = "Office Theme") %>%
+  ph_with(value = "Wykres zależnosci między wagą, a liczbą mil/galon", 
+          location = ph_location_type(type = "title")) %>%
+  ph_with(value = wykres,
+          location = ph_location_type(type = "body"))
+
+print(prez, target = "../results/prezentacja-nad2.pptx")
+```
+
+
+Dodanie tego samego wykresu ale edytowalnego (jako grafika wektorowa)
+
+
+```{r}
+wykres_edytowalny <- dml(ggobj = wykres)
+
+
+prez <- prez %>%
+  add_slide(layout = "Title and Content", master = "Office Theme") %>%
+  ph_with(value = "Wykres (edytowalny)",  ## tu wprowadziłem nowy tytuł
+          location = ph_location_type(type = "title")) %>%
+  ph_with(value = wykres_edytowalny, ## tytaj wprowadziłem nowy obiekt (wykres => wykres_edytowalny)
+          location = ph_location_type(type = "body"))
+
+print(prez, target = "../results/prezentacja-nad2.pptx")
+
+```
+
+Dodajemy tablę z danymi do prezentacji
+
+```{r}
+prez <- prez %>%
+  add_slide(layout = "Title and Content", master = "Office Theme") %>%
+  ph_with(value = "Tabela z danymi",  ## tu wprowadziłem nowy tytuł -- tabela z danymi
+          location = ph_location_type(type = "title")) %>%
+  ph_with(value = mtcars[1:10, 1:5], ## tutaj dodaję dane -- ramka danych
+          location = ph_location_type(type = "body"))
+
+print(prez, target = "../results/prezentacja-nad2.pptx")
+
+```
+
+Slajd końcowy -- dziękuję za uwagę
+
+```{r}
+prez <- prez %>%
+  add_slide(layout = "Section Header", master = "Office Theme") %>%
+  ph_with(value = "Dziękuję za uwagę",  ## tu wprowadziłem nowy tytuł -- tabela z danymi
+          location = ph_location_type(type = "title")) 
+
+print(prez, target = "../results/prezentacja-nad2.pptx")
+```
+

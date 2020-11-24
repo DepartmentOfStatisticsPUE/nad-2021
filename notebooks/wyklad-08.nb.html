@@ -1799,272 +1799,144 @@ summary {
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuaW5zdGFsbC5wYWNrYWdlcyhjKFwib3Blbnhsc3hcIiwgXCJvZmZpY2VyXCIsIFwicnZnXCIpKVxuXG5saWJyYXJ5KG9wZW54bHN4KVxubGlicmFyeShvZmZpY2VyKVxuI2xpYnJhcnkocnZnKVxuYGBgIn0= -->
-<pre class="r"><code>install.packages(c(&quot;openxlsx&quot;, &quot;officer&quot;, &quot;rvg&quot;))
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShyZWFkeGwpXG5gYGAifQ== -->
+<pre class="r"><code>library(readxl)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG5BdHRhY2hpbmcgcGFja2FnZTog4oCYcmVhZHhs4oCZXG5cblRoZSBmb2xsb3dpbmcgb2JqZWN0IGlzIG1hc2tlZCBmcm9tIOKAmHBhY2thZ2U6b2ZmaWNlcuKAmTpcblxuICAgIHJlYWRfeGxzeFxuIn0= -->
+<pre><code>
+Attaching package: ‘readxl’
 
-library(openxlsx)
-library(officer)
-#library(rvg)</code></pre>
+The following object is masked from ‘package:officer’:
+
+    read_xlsx</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeSh0aWR5dmVyc2UpXG5gYGAifQ== -->
+<pre class="r"><code>library(tidyverse)</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
-<p>Pakiet <code>openxlsx</code> jest to pakiet, który umożliwia:</p>
-<ul>
-<li>wczytywanie plików MS Excel z rozszerzeniem xlsx</li>
-<li>zapisywanie plików MS Excel z rozszerzeniem xlsx</li>
-</ul>
-<p>Jeżeli wystąpi potrzeba wczytania danych ze starego formatu do tego służy pakiet <code>readxl</code>. Również jeżeli jest potrzeba zapisu pliku do starego rozszerzenia to mozna wykorzystać pakiet <code>writexl</code></p>
-<p>Jeżeli chcelibyśmy zapisać obiekt (np. data.frame) do pliku MS Excel należy użyć funkcji <code>write.xlsx</code>.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxud3JpdGUueGxzeCh4ID0gbXRjYXJzLCBmaWxlID0gXCIuLi9yZXN1bHRzLzEtcGxpay1tdGNhcnMueGxzeFwiLCBhc1RhYmxlID0gVFJVRSlcbmBgYCJ9 -->
-<pre class="r"><code>write.xlsx(x = mtcars, file = &quot;../results/1-plik-mtcars.xlsx&quot;, asTable = TRUE)</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc3BvbGtpIDwtIHJlYWRfZXhjZWwocGF0aCA9IFwiLi4vZGF0YS1yYXcvc3BvbGtpX2FrY3lqbmVfYmFua3J1dC54bHN4XCIsXG4gICAgICAgICAgICAgICAgICAgICBjb2xfbmFtZXMgPSBjKFwiaWRcIiwgXCJyb2FcIiwgXCJ6eXNrX2JpbGFuc1wiLCBcIndza19iaWVfcGx5XCIsIFwiem9iX2FrdFwiLCBcInJvdGFjamFcIiwgXCJncnVwYVwiKSwgXG4gICAgICAgICAgICAgICAgICAgICBza2lwID0gMSlcbnNwb2xraVxuYGBgIn0= -->
+<pre class="r"><code>spolki &lt;- read_excel(path = &quot;../data-raw/spolki_akcyjne_bankrut.xlsx&quot;,
+                     col_names = c(&quot;id&quot;, &quot;roa&quot;, &quot;zysk_bilans&quot;, &quot;wsk_bie_ply&quot;, &quot;zob_akt&quot;, &quot;rotacja&quot;, &quot;grupa&quot;), 
+                     skip = 1)
+spolki</code></pre>
 <!-- rnb-source-end -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibmNvbCI6NywibnJvdyI6MTgwfSwicmRmIjoiSDRzSUFBQUFBQUFBQSsyYVYxQlUyOXF1VzRLSWlJaEVrV0FBRlFPQ0NBcW8zMUFCQVVFbFNvWW01d3hLa0NBb2dvSmtCWmNnR1JTUkxIa1NsQ1JLQnNrNTU1d1VmdlplMDEzLzJWZm41bFNkaTlWRjg4NTNQUFBwSGozb0h0MUZ0WnlvTXY5ZTViMEVBb0dVUUxwN0Y0R1VmT2VRUUs2b0lIN3VNb0ZBUnJKVGRoSElDSlQveW9jN0o5SHRIRkRzWFBmdlhMTmdqdkR2Q3lMZ3VRZlBBM2pTNDhtTUp5dWVSL0E4aGljbm5pZndQSVhuYVR6UDRzbURKeStlZkhoZXdKTWZ6NHQ0Q3VBcGlPY2xQQy9qS1lTbk1KNGllRjdCOHlxZTEvQUVQTkdmZFA4N3IrUDlPdDV2NFAwRzNtL2kvU2JlUmZFdWluY3h2SXZoWFJ6djRuaS9oZmRiZUpmQXV3VGVKZkV1aVhjcHZFdmgvVGJlYitOZEd1L1NlSmZCdXd6ZTcrRDlEdDd2NHYwdTN1L2gvUjdDODg5NHlkOHBpM05abk12aVhCYm5jamlYdzdrY3p1VndMbzl6ZVp6TDQxd2U1d280VjhDNUFzNFZjSzZJYzBXY0srSmNFZWRLT0ZmQ3VSTE9sWEIrSCtmM2NYNGY1L2R4cm94elpad3I0MXdaNXlvNFY4RzVDczVWY0s2S2MxV2NxK0pjRmVkcU9GZkR1UnJPMVhDdWpuTjFuS3ZqWEIzbkdqalh3TGtHempWd3JvbHpUWnhyNGx3VDUxbzQxOEs1RnM2MWNLNk5jKzBqZU9MbmFXdmppWit2L1E3UFAxN2YzMG5FZlNMdUUzR2ZpUHRFM0NmaVBoSDNpYml2Zy9zNnVLK0QrenE0cjRQN09yaXZnL3M2dUsrTCs3cTRyNHY3dXJpdmkvdTZ1SytMKzdxNHI0Zjdlcml2aC90NnVLK0grM3E0cjRmN2VyaXZqL3Y2dUsrUCsvcTRyNC83K3JpdmovdjZ1RytBK3dhNGI0RDdCcmh2OExkUCtMTlBoN3B6RXpqRXFiRzZLSE5UNTlJM1dNQ044TDNXMlhGUUlleERGeE5iQXNtZmRsOXZpUDBLd2ZFdVY3T3RoTEZTelZXV21qY3pXTHF5TTQzQ0xqcXNScHVLSk1qaklUeGpZTGxZd0hZTnF6Mmd5R2hqSTRDRko3V2xWdTBiaHZTT3dEdTdKeW9oaFdOY0pzR25DUHl6UXpzalNJS3hqTFJHeVNTZUI5aXZrTi9jVkxSbnNLOTc2TWNVNDMwaFFxSm9MVmUyQTJ2bC9sVnZ2cThFYTczNW5NYm9aRGRXdlh4SVV2S1ZGVmFSOGlyMzlhQUlsanZxMDlNOTlnMXJaWnBmOWI1MkJ1dWVYY25ZdUZxTjlTZ2xrazV2TldQbHRiNDJGKytPWTcyMExWS1M5VHdRNHlhWXhMemtodlU3eFVxY2xqYkZtZ1Y0bHU4V3ZnR1Q0Zm5VZTd2TXNWNWU4MEczUEFac3d0U3hwSitQSHh1UTk5cTZldE1ZM3Bad0xyNVhGOEMrTml4V1hMUHF4aHBHeUVnQzdKMnhPdi9xQmRrcGI2eVlQNHhLdlYwZEROYkkrUWRRR05aVXlINy9NYk0rRnNlK3EyckoxUlhMS0tPNlREeHBpMVVyZjI0YmVLT0s1WFF4THJKRUZXS2hBVlhWSG5VMFdPTUxpc0FRSjB2dzk3cjFmWXhlQ0l1ZmY3d1lDM3N3MitEVnpsNGVlU3pES1BjYWVXTVplSTNWQ1YwNm9JckZjemc4aG9JVFdMejR4WGluTzhaWUk2dFh5K1dTTXp2ck5XWHAvZWt0OW0xdHoxVUhFMFVJc1l5OHpiTnNnSDJObDNzV0hYa2V5OWQ4aEJvWEp5RENqWC9xZ3VRc1ZrbTdKTW9mb1l2Rk81M2orUGFoR2NzbmtvMmI1dC9ITW5ZcnJWcXRYc1BxYVFwVTgwa1hzWGxiemREKzEwNVl3UGZ2dS9NN1hrTHNMYXRSbWlwS0NGV3NTOStReVlYSDNXZWVlZXAreDBZRW40NjlmM0lZSzVVZkNGblAwWUYwOXNvajFkSk04Q3o4M0dtNTF3dVFtM0dJN0dscEdaWXp1UGk3VFNJV0FsSkdPR3oyZVVMaXowdmxIQXZoOEdMUzR5L2hPN3BRSDdUdzVjckFNeXhYMkVqMW10d1dXSjl0akdRc2pvRXZvaXREcHFsRmtOTHV6VUhnU0lWRUpkN2c4MEZTV1BXWnI2OUhuOUtEL2RYWXgyWDlzZkNLTW9IMlI3SW9aSFNDcHR3dUpnaWtVbXF3bVBTRENFNWkwUkkzS2Z5VjRWUVdwK2NHbjRZdlpYYzlGNEMwaUpVNGl3eDUrUHl5TzYzMFl5VUVqOUVWRHJhNXduZk4zWDNzSnBwWU9pdWh2eWIyTDhoOVdEN3Q4WklWNG9MclZzUHVVb0ZINSswYnN5cWU0RTdTN210VzF3TmZSVnd1WmE0WVFwcnMxeWRrQXdmaFZiYXNHcTN0RzBoNUVway9HZHNFUVZPQ25SRWVmQkF0VjVPblllSU1TVmYyM0p3WGQ0UDBnb0VMeVhyM0lZVExYTkhCT3c2ZTJEMHpZcDdaajhWRTdiSFE5WjBBbDBkVmQvbW9xYUNJZWU3N0xPc0U1SlFWbkpadFdJS3M0Z3pyTjBIZWtKZHpMT2FSR3pQa1Nyd3BsMkM5RDBXVVhnU05CbnN3anhkOUcxeDNHcXVzbjJ4cDhFVHdZWnFCOS9IckFLeCtqWmV5UmZjNjVtL3Jsc0h5d0JQeW05YlpPclp5SUVIRWxxZHIwUWJlMzJsdzlEOHNDUmxxTXVRenl3K2dQTHIySkY4WE9mYU83dkI5UTJFZlVHV3BkLzdKbUFoQmxpSjd3MXVlWXMxTkIwdjN1YVpDbEl1YU96Y2JGY1EzTVZaazF6TkFDbC9PcGJpTk1VanJwcUc4Ris4SzZkUWlLZUd2ZENHTDVRaS9xMjg0Rkh1ODNZNW9mZ2p2U0lmdThwelF3cklTWERicFBCZ2dWT2hwdWFtc0NDUW9XNHZKNm52RFg5Smw3MHl5dXNDUHlIaWY3Zmx2ckh5VmtFSjd4aElyZEdSeDNtWW13SDI2WjB6TUs0ZXc3M2I5bTlRODd0ajQ0SWZlclJFSGlEOWVjK1B6NUNjczFpUTJkbFRwQ0paeHBKbXlnT0lqbGlaTzNPeGlWOGZLRHcvZmRjd1RBazkxc3FvNk9rbXNZblJVMDFVb0d2Um1YTExQTzcySElBbm0zaG1xTE96amR4cVpYU25Xa0hpZTlVM0dFeHFzMVdsVmsyZWlIblNrRXBkSWZGS2dWTWhtSVVVL0NrcTdXUE11OGd0QWdNNFB5WWRrVzFDWDl1VFllcllXL0VYL3c1ZmsvaERFNnI5Y2NucThBU2xNa2NmSVQ3UmhOUUYyaGJKUEVTU3F1dktTNjAxQWVkTHhGNzh6TnlGNEk4MWF2c01KM3BNUmdzYk5Fdit6VDZlS3NHMm9ldmxnbWJha29kNVplK0gxMldLRGVKY2lLTDlaZTR6QnBRUFNiN01LR0hvYlFnNUk3aVh3ZEdDRnNWVjY5enhkc0tkU1pwUVh5QTlqRmFmVy9IV2xKU0I5Y0ozelNNUUFWaC9IM2tJM1hBTWh0dDRFelVZV0tEbVRWZGxpeWdxUkdweHh0M2Q5Z1FkZWc4SWhUM1N4TFA4enR1WEJ6N0YyL2o2RDI0L0VzYnltS2E2ZkhwOUJUUHB3QTIrc005YVN2eDNBSEdpTlZYRngyYVlzVDJQTkFWdTdSTjlRWUY5NWVuKzF5UE5nUWRiakxxcXorbGl0aWpZcHg5eGVMT2x5dGp5L1p3SFdNalJwTTZLVGpyM3RYMDRhb3RIQzZ1ZjkrbHRzL0xIUTR5a0N2TmNQZ1dIZWtYUHRCdzJ4eWhzVUxLSGlSbGhlUVhicmwvZ0pyRU5kUCtYc1RVV3NkWWo5KzRyNUU2eHg1a1RvQ1hrL2VOdkc3bEgyS1J0TDY4bGhiaFhPeGdwKzBVY00wZlZnTlMrL1BsR3R1b05sa1dWNlVwNnpndzlEV2RsTUpaZXduNGNhV1dONnZiRDBINVlQaFNxZVlybEpzdWRsZkJPd3RKdjZFVFNhaGxqd3JuZExkNFRQZ00vM3BlZ3pMQyt4eGtQZjlyVG0rRUJBVFlTYmRSa0x2S1lnUzM1cXdnOXh2bU9QUlpWc1FIY294NUwzOWdpOHVuQllUa1p6Qzd5WU5odU1hdE13Mi9ldWdvcTF0ZGgzUlhvQ2Nkc2NheWdLcy9jYVlzZStjSHhFVDc3M1FreW00NkV3RGxlSWV6a1pjVTl0RE1zNXJKcWN0SHNkWHMwN0M1R0U1a0ZoelBUQXR0SXpMUE9acW5MT0tNSkM2TkpNdEJtVElLbEpQekZsbGhwcjJQK1FpenliRnF2dzg4MmhlVk1LWHZWa3JRN0pFOWpZaE1yQmoySlo0Tmlva1ZMSytCSXlQbHJjYUFtMXhacWpoNlgydm8vQU1nclNQZmxSSjhRTnFpMGtUK1JBWEJ2R1VIdTBBRXBlUEl3TkRyNkZaVlNyTWt1ZktvTzQ2akRGaEc4c0VMYytJdmU4SXd3Q0NhTjc3MUpUdzArdU52M1d5NUpZUWJoZDQrY1JTN0I0TWk5dU1PMElOYi9vRGFaYUxTRm1waVJGbWI0R1lnc3NmN0hMVG1BZVQ2enBhNFFPWVEvMVcrYmNqSjVBOXBJMW9aakZHQUlmcVZ6K3FFeUJoWWJ4Wno5M2NJVTNFdXZLRzZzekVQdnFiaE5wTXpWa2V4bFdjVWpxUThMWW8rcXlhRVdJcUNDZjVxaUpoeXhYZzdKU0VsNm9FVTlzSllnS1llbnZCOW5rQTB2ZzYrNVRsRjZjdkZoSXBkK2pIdmQyeUxCbW1CVXlXTUhlQzdnTngrNjFoTS9aUlptcnp5OUM2Vm1UZ2pqNzh4Q2wwakxheGJXekw2WEdxMHlkRDRFUG5PcnVXVmJha0diMzZwSFlBRHNVM21OY0ZkdkFJTWVjNndXTFJTZDh1bDVpbzBEOUc5NmFUKzZ6djVlT1BScTFwejM4S0FYenEvOXkvWGNvTDFRdzlMajVEVTlEZVdWdDB2NUdKU2lUOFQxN1Rkb01xcEwwK01SekN5QXY5bHVCUllRU1lHd2tSMWVhOU1CUjdyR2dGL2R4ckNvODVoRGg2aDJJSCtROFgxUmdpcFhITlM3TFNWcGhRVTVJVmZWNUx4UWNpUkc1RWJBUEN1Nys0cERYSm9GMDNwSzl6bDI3SUdOejFkbnl1aHBVVGtraDhvWXFMR0d6T3J5amdRajJQcUdXUDB3MUliTjBlTTFYZ1I5cjdpd2tPQjZ6aHppUzAxMmozVnNRZjd1NXh1TFZLa1MvY2VidWE0aUg3TnVFekErUjFKQlpLVzFVWG00UEpWVGZ2R3YyOVVOT1Z0dCtwR2dLeWV0cmJLa3Q5VmcyczZmZnlrVTE4TTZsemF1Wm00SWlKeTh2dHIyZGtQeWJYMzJLWlExZTN4bzQ5MlNEQzh0MXptQU13N2l4NG10cFR3N3VpNGIwVjFUdWxHOGRzWXl2QjN0ZDFJOWhBNU9yTDd1NUppSHQ0UEs4eU5NUUxPVWcyYndMcXpUMlBwdEFacDJoZ0dYUjhJamNqem1GbFp4L2pzeTlMMEdJZ3ZYd0lBOGxsdDA4ckQ3VUlRM3hNYUZHMGo2ZVdKallOblpvbHdyRTZKUHpGUGRPQVRacGFDdnFZSWUxdDcybSt1clVBS0grejdObnpqSkNhV1U0VVh1akRLb1l6UGRwUHY0R0dZSDJ1Yk5PUTlCOE8xalIwSWtVQ3c2aFRzM2xqWVUwU2UwRURqRVhTQ0dqZ1hmaGw3QU1rY21vcmlaTFNMYmdxOWw0NUF3UFZNdGUvZHAwZ2lqLzZRempyRkRJdEovWGJMMjUvcDk5ZW9iMTFXbkpzTGZRZDEyWndYQXdDeGFsVHFwODNQY2VObStYYzhmM2g4SmM1TGx6MHZHNXNFQWhyYW52dEF1V0hnaGg2bDhHWU5MbnZuSmlXenZNOElUWDg5eHVnNFUzVEpNUnEwOWdNT0xlUk44eExWajR2U2hXWWVJQ1N3TDBsZ3o1WkxEVWtDU20yeXNGSzd0NTZkMlVia0h0RHlZeVYrTXhLQ3M3K0R2d3BpRk1oN2lwQitWZGdlMHpDY2tXODZ6UUoyUWo0RmVZQkoxYTcvOHFEOW9EUFJjN2hyWHphcUh2T3l2VFlMUXp2QWtmY0pwanRZQnhsdm1GL1A2ZjBIcDNUZTB3YVNIMGJGU0l6N0E5Z0Y2eCtGK3VwZ2lXZGVaYUpyMXNZWVJwdUNManpTV29janJCdGx0ZEd2cktYcEs0SjBaQmYzNTF4V3ErTS9TOVJtZXNHOVJobStibzFrK2RqMUNtb3FiYjVid01FN01TVXZGc2V0Q25xcmdsZjlnZWxrWjZyNjVYak1MUDJPTUpNdXJjc0REaUpaRzZSZzFUNXhwT2xyN25nN0ZONDNqQjIzWXcvVkNwYytHWktJeU5YZGd3Rlk2SENiRlBGd0w3UXFGbFcwTGtYQjRQek5kbTlWNW1Fb2M1YlVMUmg4aWZzQkREbXp4KzFoSlc5cmJSWEtEc2hZMFhXNzk1WkRGWUhHeTNsWkE3RGt2M1h6WjB4THlGY1ZLakw5ejBlMkFyL29OVTJNZlQwSFplUTBDUUt3a0dKTFJMSFBTOFlVaU5QeTFKVndvUnZqQ0w3WHM1RHVVUEF5b04rcGxnbUk1ZVhUMDBHbVpFNHdZNFdwcGhSaVpPdnZrc084eHk3Nk5vOEE2RGxkNTFrckxubzlBZmsrQVJHbUFHaXlPTXJjYVhleUdmeFplY1ZjNEJwcTJ2YXZRRW5vRnNiN21jL053b21BKzBQdlo1amdEekZ4dCtQQ00zZ2VhOVRjNk9JazB3b1NxcVNEZjJEcEU1V2JjZk1MZ0lXNlp1Q3I5amhtRERqSXFZOE9rYmJKRXBpOUdVUjhHSzV1WHVCMHBIWWFGdVRTUDh4ekdZTzNCTnZIdnBQU0x0RTFqWXczc2FObGpOZngzbW4wYVVGcTNUT3ovb1FEdnBheFV4SmZoZFhKQ3VSaUtDOXR3ZEZuNDVMQUtUVmU2dDk2ZnNZVFdTcGt4NHVRV1dxazFaU28rTG80UFhYdnJFL1FoQmhMM1NqeEp2UnNGNlNObHN5NFhYTUgrdFc5UTVWaEJXUjEzMHA2WHlFWDJVaUwrNjZWTkUwcjhxd0UyckRTczJoL256U016UXZ0RUIyU2dmY1Zpa0c1d1FQellIcTZTcHZ5OWQ0WVZaL3RnN2NhRlJzRkNvL3FDN0pBNG1jeHF0cWVYWEVWMit2OTk3OTNoRVNrbjV5MWo1S3lKN0cvWm8rZUJwbUMxZTVtK29GSUVsOVpONXo4bjRZWm5MaU1BdlpnWnJ4VjBiWnVaWFlKTkdKSGNNdXdXTHdpNUR4ZGNWRVVuZzRraG41d08wMjBUVmVVU1VEN1l1MUM5NFAwNkVOWWJIQWNXdUh4QkphTDZHYUg0cklsK0lMSFg0cUFaenRYWDNMek9Gb2IxTm1pNHFMd1ZnaGRqUzEyL2xoMmhzdjZZOGIzb0FxelpxVldwS2IyQk5takhKcFo0VE52VUdqeDdiSHdrYjJMSHBTN2NHRUhVbjlZVlRQMlZnUmVZYjg4cnhRbGdmRjVtekhhZUhCWU9QNGJUc1AyREQvSmJGYmJONVdERmN1bktaelJXV0o3dDRqbDE2RGwwcmxJZFBYL1NIVFR2MU0zeDBUakN2K2RJbFJxd1daaU5yaGRjTjZOREJDSVBidjc0THd1TE5sOWpIUUYyWVp2VGVQWmIwRW1ibU9CTHlUenFnUGFubHk2UWtRckRCOG5OaE0va3kydlBGNXlDblJDRE1iRGs0WHFib2dnMmR3QUd1d25Yb2EyNlo5d3RmaGxYLzFTYTlZaVVZS2Y1UjByREtBN05OQjBzWXRYMWd6ckdGcHV2MU81aTRMY3luSWxJSm8rNDNTanNTeTJEeXQvQXQxZDRFcUd6VG8yYjJQUU9qVjhKMURwZndRYjloNG9tL3N0Tmc1aFozeHZpNVRsam9sbHE5M09ZT2k2Zk1wQm9xTGlHS2R3dS9QUmcvd3R4NXh4bnhDd3d3L3BiNVpiZElES3hiYzFvOVU2aUVJUm42d2M0c1BiVHI3MzlLd0ZSU1VHYjFYQXdza1Mra01vN3ZnMFcvbnpwaHdhR3dxWjY2NENjcUNPc21zcDZNSEJxd1FWb1g1VjlHRFJOQ0tvNHhBczloakl2cjFQNDJja1EyOEdWam5kVUYwWjBnRFZCOFJnNWJIR3laVVkzRmFJOEx0ZEdNa2ZaLzl1bmhtNU8razJ6bU1OMngyNk9FQ1dCUStOUEk3cUtUMEZNa21GblR3QUNqY2NLNVY1T3pZU2pzZTg3czhsdm92aVVkWjVUeEZNYWpMYzQxSzNYREJPY1NPK3MxQnhoOWVLOUFSV0lkaGovdFl6ckt0Z3JkTis4MXZBdzlCcU5UTjFZYkdXMWhpUFB6cUI0N0V3eTErM2J1b3ArR1VlUzhQSHFvRnBFRmg2d2xKYWhDMzZSbnRHOXlFYlJKZHlQU3hRZXdHVVRYVXpYcUJndmJuaDlMZDE3dlU2RTZuNzZzdklBeHo3VFVuczNqc0NvK05EZDFiRC8wZjZidjJGWDhGOHhMbER4bGV2b0o1aWQ4Wkl4OE4yRnlPREpVYWJ3U1doS29McUhNRGZqWkVIVlg1TVJiUkNGYXhCSzJPQXFUTHk3ejgxc3FRR05yWlNIdkMyNVl5Ukd3L0dHNUh6b1BmU1o0NTB2QzcrM2dWN1hEdGRERHh6VHNPTlVLRFhGczFNY2Q3S0NuVjViVzlsZ29ESmZMUEw3V3V4ODY1aTBHWmU3elF0ODVIVEZTT25XWXNnM3A0bWdBbUV6ZDlBdlBESVlwZ3huM1g5ekYwTmtYNVd4eDd4ZTBYRWpZUlhkZUVzYXVqdTNuMWhLRlNmRzhvMDZ2Sm1DNHRpNzR3STE4R0VoOGJwR1Qyd1B0QXh3SkxwMkJNUENid1pCdHZCMEduMy9PZWIyOTgzN0RsdDh4eW1BRkpXVkV3OUFnYk9mdm5vSDFLMWpCVE9aVngzdE5iNkdML3ZTeVJjbzZ0UEpIWStGZFE5QmZsakhSUEYwUDR3d3Z5c2tLeDZEaGNIc01SWmNldEpmN2IxbUo1TURBZzZRV2x6NkFQdmFBUVVQdklpZ3lzVk5ZNkkyQm9WVXlxaUZCRDBUb2FoODdYOEFKZyt5Q2VnVmg0ZWdrK1hiSVZidEZHQ0Fmb1IxM2k0VCt4UlMxNDN2WjRUZGw3UHdqcTdQUWowd0R1bFYrUWlQMVdiTVI2Vk9RdzBrNmZyWnlaOTAyYzV2dVhxR0RqaC9ibnRHR2oyR0FYU1pZcjEwUXhxZ0QzdzdXa3NCb1RtK3lpcDgvbEk2VGZXS0tFb0x1b0lGbVM3OFcrRkZYdGxzcHFnZSttdTA2c0s4a0hGb2FFcHNNMXd1aGhqWGJsNXovSjNSelhoK0lpemdJN2U1QjE1ZUZ1cUhuTjZiWlhlRUZWYXZrZkhXSzE2Q1YxSWV1WlpnWDZvK3dPNm5NV2NISUhhVWtMaURDa0pUTmh6bTdYTUJFemJoTVpVS2dTVGFQUk14aS84N25GVXVXQnlPelVMdGhWSENJUFFaK2RoSGNWcC90dk04Wi9xV2tIakVLMWZKRjczcnBiSGFlMTA2SE5NNm1RU2RaOUxZcnlSa28rdjMxVVN6ekV0U1VhNStQNU8ySHloY3ZTc3E1QmFBNzRrcTJXRHdQdEF5ZWxxSmt2QUFqeExYdnlkUkhvVzl4ZWFwd1RBK2FtK2Z1anNvR1FzL3RxcW5tQUdrb3l5OFljVDJyQ1dXNkxLVnJGenpnVy9JdGs5TzI5ZEFVazBYN3d1QUgxS1pZbGZvY2JZVHFoajNaOXJ2UFFMOVhrZGJkNDk3d2hYVGRVMjZaRXZxRTVkSktTazJoc0pwVTJXakVEOXBjYlZkUGlOMkFqRzhqTVp5VmQ2QXQrbFdyK3FrdTZOUmV1cWZML3dhcWhsMlc2RHBXb1BidXVPTkRmbjFvR1NYY01IV1FnckgxRzhxOTJmUFFCZnl0NDN5SG9WOWo2UytUTEZKb0RyblkraXlIQ25wNk9CWHlua1pDVmVVK0I3TTRjdmgrUElaL09NVVdldTJGK2QvS0RFTHBiUHRuZG1vSzZPTmVPcHFpcVErOUd0ZW0yeldQUW5lVmh2YUFFQmRVV2h0OCs1NjRBbjBPaGN5MnI2Mmdja0FTTVJ3NEFnT0RZcmNUYzJXZ25UYnowYWt0WmhoODVpQng0dk5kR0ZDV1N5bThGd0FqQzNiVkVYY2Z3ZGhobFZoQllWYm9hVGhNcHlNZENjT1hUbTRPdmErRnhSUFhBOXErOU1Bd1k3TjUraGRPR0NWeFhkaFFVb1BSa1RxT0lDMW1HTm0yak93blRzRHNOYXZaVXUwS0dIazRTTEp3MEJncXMza1J4Uk1HYUxrNkhkUldzaHRHeXpmSzgxS0dZVER3dGJqL3JWZlFOL2YxWjZ5QUF2UkY1RXhFbmF5QzdzcytBbHY1WmRDUnFpa2x3SEp5NTd4emEyOHBhV0ZnMXY4VVU4Y2s5TGRzeXg5NWk4SFB3UjlwNzI1TVFwMWQ1cHZxRG1vWWVEVFJZMjJhREcyVG8wZHZHSCtHdW1NR0RNRG5CbVZKUi95a3lEV2h1Mlg0L25RTkUxVGRscThQNDYzOHMwOGpiWStJTys4aXJpQzNKS2NRU3ZNTzVMQTQ0U3NlejRUMEpYbVNSQTNmSTFPMTlNQmV4bXpra09NL09jUmZpS3p5UHdmWXJLc2hMU2Jha3R5WU1tUi8zTVNCOGhFTjBoUXEwSkpVcVVMVyt0R0R4K2NZa0hQMlM4czBsSU1NNnVpMHVKeS9JSXZ5d0IrM2hOaVJVV0Rya2JUdkMralJtZDlmZzFtVGtQWFNBN1puaWFUbzRmYXlTN1BCTWpLNnlzZmpJRUNMOVBTU0UrNHpYVVBQSGU4c3ZTY2FJWE83M0V1dUMzZVFwM2Joemo3MEZMMWlrYlhhOTFNSnVTVFFxaVZXZUNJWGpYNnE4UnM3UE9xQWxNMUVPM3A5Wit6ZW0vVUs5SlN5NzN4MlBSK3lrc2lRdS9YTkdubnB4Y3hMNzJGRVJIT1JVY0ZPVGZSMHFFT2NNOUVOR2JxcGhOZEp1aUZ2eXlVWDI1bGg5S2lXZzFhWmlSbTVaUjJqSzRoTVJFRS9KM1BkOTZjaXk1T2psRi9pK3BDZGFvVjBkc0ZsNUZ6V0pFa1NNb0hzcnJQeWZXZWRSSSt4aW83NmZHbWtKVFF5YVcwdGpud1lyaVZITGFzaTNTL084bHpwWE1qTnhqVlVrYW9ERVMwYmJPdUxSOUZqeDRCcW9jUTJaRWpTcW5nSis0eXMxUk51SEdFWFJ0YXJTcUlpbksrUXRkWno1OWh2KzVGT3JVVDNJbmswTXJpalEzVzBOQUU1S0pjdzAwemVRenFoaEZuSDJ4V0lpQ2tvK0dXZlJ3LzNkOGUrWStaQmRwU1VTWUpwYThoZlRlbWphcllwc3FQblRGWE12SXAwNW5YanRzWmZJU3RPcjRJZnA0dVJJYkhkbHRLR0Y3M3JlOUtjT2ZnQWVhYmVjWG94YUlkc0dUUi8xc3JYSWNzRDlkY0RPSmlScnNBRGNkblNwMGdwUFd4a2dYb0dQZFR3bnFpclgwWUd6anBVeDYvUklwVzBEU1ozSzJOa25mTjVqUEpUTTNwNGlvOVMvVXM5TWo4WnZwUXZSWXRzUmFrcUtGUTZrUm5iZnNab3VJR3NpdDhFVlBuT0lPc0FpY09pbTVUSUpMcXkzS0hFSGRrRzZhZExQd3BDT21lSnp6TXVNeUNMcjRjNGpmYU1JS1A0MERtNW5DL0l0cDV2TEw1VURibS9VdEc5d2hTRWJLNUljNXpkZHgzWmxNK2JDeDc1Z1N3QzN4N2k5ZE5DMWgwbk9WNEZ6U05iOG9POVJXK3prUFdnTWEvNm9VQmt4WFNQd3Q2NEhtbWxjNTlRMjlSSFRqN3RxUVdMMDBoL3Rsa3dMMllUV1RxZGtMOThnaGVaTnlPMndwMzFlUkN0bnpyL3JSSnBjSytsMzh1N2o5SXRUdXIzcjlRampiVlB5UmpWS3JKN3ZURUxhZVBJY2VucDBjYmNLR1Qzalk3ODIzd25zdXQvbmhsa3pJbTB0eHdEUG8zc1Eyb3pUbEh0ZHdyUUxkc0t4eGQ3OWlGOWd2OTNaV29LNVBHWlBuczE4Z0t5TXNkYWlxa1owZlBGYlFYZTlpTDA4TUZEdG9OYXJzalduYXM1dnZjWXNnd2lXZ3dIakNPRERqMGQrcXI5U0YvUlJ1UnBjUzNTSnNwdGdjQTdaSDA1Wm5xZXNod1pmSC8ydFkxR0hIbm1SZDdLWE14RjFxWUNlWlpyT1Nnd0xGR0llMW9JbVJzdmVzU2NwVUhHQ2hJZldyb1EwZ3VhSFJpWmVJSmMxQnNKNTZTTmtWbUg2OUdrTTJ2SU9zc3ZuYmhlZ3N3U1dXOWxtbk1nb29QTWpVYXRuZWU1MTgxZFRCKzhrR20wZ1diVjVRVGt6blg0RHEwU2hyeDhuSTdRQmxVaXpkS0lieElNTzY5ZlJhVm54azJTaUdqaVFudU0zQU1aOW44eC9ERDFHUm1QSENCL0YzUVhXYmtZc2JNb0t5SFpYb3VSR050MVpINms4MU5UQmdtUzF6bzRmUFplTlRJWHBHMUw5azFIdWhyMStkbUNvY2pXN2hCSktrRU5XZERVMkhMMkd5UDc2WXEyeHhUN2tPTW5pMXUrcTczSStQanJRTUVlRTZTcG5SS3doNk1CbWZ2M0pmTzg0RVkyZzlMOTFhcjF5UEg4cURuWC9oaGt2MlpWUi9Jd0NabFZ4R2trWG51TWJQM1BEWDRnYTBLQkhseFZUYjRQa0kxS1FrU05LVGV5bER0ZHlITVBJU3ZrRk5BUWZIM245UnB3Tm1mN0NWS0tXNVhwVnRxTkZKaUxWV3RPZHlPRjlkZTgwenhpU0hGWTZlYWhxTmZJNUwyTzhJZWJwdWkyZFN6OEZraEJIc3k5MnAvSXRKQTVzNTVUdjA4SjBxd01jMzN4clJWWlRjbWFTTWg4UVVUMzNYekhqM2dpOTBTUHVWTTJFY2lvNmVPSm94elZ5Rlk2a25ncytOZk9IbjNnWC9zMC9rVVFDaDJpaGFtTnZkMC85Wi82VC8ybi9qK3B1NTMwYkN3ZkVQOXAvN1IvMmovdGY3WC9UemFvZjdhKy81djJmMzZGbU55Q2FLNXZTL2o3NHlRRlBraGlySWNma2RwWS92R3BuQnh0VGJWMGpNMklGclovaGg3OGUwUmZ5OHJNOGMvQ09WbnFhQkZOLzdPT05wWjJSRjJUUDdkQmJtaGpiL1hmVTZEY21SYlBuMmxRLyt2dTNYZCtiVzl2Uy8vM1hIWE5pTFovNXZwbmNLOGUwWTdJWTJDejQrKzByZjlTS0N5dDdJd3RkeVpNSVBuWDk2VEovMHZlWmZOZkF6VDJGdithaWQ0NVhTTjdDOU56Ly9vVzg5NS80Nzh2MVBoeDF2ODZwdmo3TGttMjhac2kvN1BlK2hhR3hoYjZmK1p1UnRUUk44UEwvcDFIL084SHpHTmxZMnp4WjYzMjdvemE4dGp0TE5pZjgvYnFXcHI5R2ZuM1l5TnMvUTlUY0tzVEhpNEFBQT09In0= -->
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["id"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["roa"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["zysk_bilans"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["wsk_bie_ply"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["zob_akt"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["rotacja"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["grupa"],"name":[7],"type":["chr"],"align":["left"]}],"data":[{"1":"1","2":"0.020996705","3":"0.059044778","4":"0.94099005","5":"0.66454103","6":"132.05009","7":"bankrut"},{"1":"2","2":"-0.247052839","3":"-0.075973724","4":"0.50797657","5":"0.93286443","6":"506.52993","7":"bankrut"},{"1":"3","2":"-0.015879051","3":"0.023608184","4":"1.20560393","5":"0.60091395","6":"367.24476","7":"bankrut"},{"1":"4","2":"0.173661360","3":"0.150506512","4":"1.70599667","5":"0.48029869","6":"170.28695","7":"bankrut"},{"1":"5","2":"0.050163456","3":"0.067552341","4":"1.03861730","5":"0.73879753","6":"218.86543","7":"bankrut"},{"1":"6","2":"0.019185964","3":"0.086903157","4":"1.12678182","5":"0.64340864","6":"363.40989","7":"bankrut"},{"1":"7","2":"-0.135710610","3":"-0.111874127","4":"1.27910781","5":"0.45747677","6":"267.66982","7":"bankrut"},{"1":"8","2":"-0.067756358","3":"-0.010884136","4":"0.86051528","5":"0.80095586","6":"124.36046","7":"bankrut"},{"1":"9","2":"-0.206056000","3":"-0.173125333","4":"0.94318858","5":"0.81701094","6":"338.21349","7":"bankrut"},{"1":"10","2":"0.011759000","3":"0.069884845","4":"1.16286461","5":"0.73343693","6":"120.90206","7":"bankrut"},{"1":"11","2":"-0.219248424","3":"-0.260017117","4":"0.61258741","5":"0.67761807","6":"278.35202","7":"bankrut"},{"1":"12","2":"-0.025058146","3":"0.019971952","4":"1.18699958","5":"0.45723362","6":"443.34752","7":"bankrut"},{"1":"13","2":"0.069741327","3":"0.126333807","4":"1.26295894","5":"0.74759053","6":"182.47111","7":"bankrut"},{"1":"14","2":"0.054930964","3":"0.029652188","4":"1.30118587","5":"0.62948222","6":"246.11155","7":"bankrut"},{"1":"15","2":"0.014994784","3":"0.005741966","4":"1.37651070","5":"0.65155547","6":"196.55739","7":"bankrut"},{"1":"16","2":"-0.073010581","3":"-0.080294338","4":"0.22503936","5":"0.72662161","6":"466.74946","7":"bankrut"},{"1":"17","2":"-1.786374245","3":"-0.393791294","4":"0.14654767","5":"2.57206148","6":"287.27908","7":"bankrut"},{"1":"18","2":"-0.164309133","3":"-0.100889930","4":"0.92437714","5":"0.52874929","6":"399.99743","7":"bankrut"},{"1":"19","2":"0.025668114","3":"0.000649942","4":"1.94815699","5":"0.36406642","6":"193.91225","7":"bankrut"},{"1":"20","2":"-0.346312717","3":"-0.339538470","4":"0.50701247","5":"1.72316348","6":"163.14571","7":"bankrut"},{"1":"21","2":"-0.347872510","3":"-0.188633615","4":"0.42771402","5":"1.18738144","6":"879.16355","7":"bankrut"},{"1":"22","2":"-0.202792321","3":"-0.321349622","4":"0.47197602","5":"0.89323553","6":"235.64749","7":"bankrut"},{"1":"23","2":"-0.177142110","3":"-0.165493010","4":"0.52503781","5":"0.76607546","6":"620.09226","7":"bankrut"},{"1":"24","2":"-0.097282998","3":"-0.018012665","4":"0.02695421","5":"1.45480818","6":"1478.57953","7":"bankrut"},{"1":"25","2":"-0.345211498","3":"-0.221477510","4":"0.78453920","5":"0.55359881","6":"458.37924","7":"bankrut"},{"1":"26","2":"-0.467771220","3":"-0.047307650","4":"0.34863099","5":"1.08026173","6":"453.86744","7":"bankrut"},{"1":"27","2":"-0.474038843","3":"-0.342097151","4":"0.48405606","5":"1.11975985","6":"627.88295","7":"bankrut"},{"1":"28","2":"-0.154679590","3":"-0.029182280","4":"0.48862600","5":"0.87177972","6":"1555.72687","7":"bankrut"},{"1":"29","2":"-0.485463450","3":"-0.264743300","4":"1.33665546","5":"0.33825951","6":"705.23447","7":"bankrut"},{"1":"30","2":"0.036126812","3":"-0.020643893","4":"0.69041718","5":"0.38779433","6":"260.54354","7":"bankrut"},{"1":"31","2":"-0.546220437","3":"0.002895892","4":"0.19122769","5":"2.90856381","6":"652.57956","7":"bankrut"},{"1":"32","2":"-0.315746059","3":"-0.181702507","4":"0.52374983","5":"0.86086664","6":"139.41356","7":"bankrut"},{"1":"33","2":"0.003283474","3":"-0.100520482","4":"0.55405129","5":"0.29435914","6":"732.60658","7":"bankrut"},{"1":"34","2":"-0.487330887","3":"-0.411889475","4":"0.51858529","5":"1.41948455","6":"187.97969","7":"bankrut"},{"1":"35","2":"-0.825619580","3":"-0.357673360","4":"1.94119453","5":"0.42344451","6":"749.99438","7":"bankrut"},{"1":"36","2":"-0.572695252","3":"-0.295785566","4":"0.14335196","5":"1.87489661","6":"476.75758","7":"bankrut"},{"1":"37","2":"0.029053285","3":"0.029140927","4":"0.84170928","5":"0.47174642","6":"507.25832","7":"bankrut"},{"1":"38","2":"-0.170469734","3":"-0.065898305","4":"0.51102733","5":"0.27564169","6":"1206.23020","7":"bankrut"},{"1":"39","2":"-0.279664042","3":"-0.109315193","4":"1.30636524","5":"0.48238017","6":"249.24695","7":"bankrut"},{"1":"40","2":"-0.246545070","3":"-0.207512560","4":"0.38495723","5":"0.68009067","6":"325.67341","7":"bankrut"},{"1":"41","2":"-0.117974642","3":"-0.078196735","4":"1.18127850","5":"0.42098591","6":"444.17658","7":"bankrut"},{"1":"42","2":"0.002803812","3":"0.054479262","4":"0.88059290","5":"0.50554002","6":"324.06938","7":"bankrut"},{"1":"43","2":"-0.308356843","3":"-0.376575973","4":"0.78069002","5":"0.88910907","6":"599.97210","7":"bankrut"},{"1":"44","2":"-0.039291435","3":"-0.069556205","4":"0.92093986","5":"0.86511018","6":"124.90472","7":"bankrut"},{"1":"45","2":"-0.073273374","3":"-0.096318316","4":"0.77834462","5":"0.88756490","6":"802.65560","7":"bankrut"},{"1":"46","2":"-0.198019963","3":"-0.063528395","4":"0.82100639","5":"0.43558490","6":"158.14005","7":"bankrut"},{"1":"47","2":"-0.089295801","3":"-0.018560901","4":"0.34370619","5":"0.33121634","6":"503.15590","7":"bankrut"},{"1":"48","2":"-0.021060121","3":"0.012599860","4":"1.11247718","5":"0.75755694","6":"139.49432","7":"bankrut"},{"1":"49","2":"-0.289796726","3":"-0.282824286","4":"1.02343821","5":"0.85238320","6":"591.19570","7":"bankrut"},{"1":"50","2":"0.014900743","3":"0.016397871","4":"1.16459719","5":"0.68125132","6":"184.08866","7":"bankrut"},{"1":"51","2":"-0.042858212","3":"0.023464272","4":"1.37764650","5":"0.58295223","6":"277.79059","7":"bankrut"},{"1":"52","2":"-0.004779785","3":"0.040122286","4":"1.65942286","5":"0.40442649","6":"287.45856","7":"bankrut"},{"1":"53","2":"-0.071910396","3":"0.002428395","4":"1.24312730","5":"0.59339399","6":"277.97155","7":"bankrut"},{"1":"54","2":"0.010209674","3":"0.022652079","4":"1.27137739","5":"0.61080537","6":"150.38389","7":"bankrut"},{"1":"55","2":"-0.041255668","3":"0.009811370","4":"0.78166617","5":"0.69112914","6":"178.44947","7":"bankrut"},{"1":"56","2":"-0.041551252","3":"-0.004801267","4":"1.91544656","5":"0.13093202","6":"357.54690","7":"bankrut"},{"1":"57","2":"-0.282990654","3":"-0.229158879","4":"0.36226587","5":"0.81954324","6":"148.65636","7":"bankrut"},{"1":"58","2":"-0.346308812","3":"-0.277196517","4":"0.57133520","5":"0.95937990","6":"141.97904","7":"bankrut"},{"1":"59","2":"-0.218506842","3":"-0.157216698","4":"0.63613305","5":"0.43873095","6":"384.92911","7":"bankrut"},{"1":"60","2":"0.019957040","3":"0.036525521","4":"2.09574942","5":"0.34690136","6":"320.56486","7":"bankrut"},{"1":"61","2":"-0.169107739","3":"0.040160525","4":"0.15211687","5":"0.55501696","6":"971.41732","7":"bankrut"},{"1":"62","2":"-0.103004292","3":"-0.086354891","4":"0.65857904","5":"0.78388060","6":"321.25896","7":"bankrut"},{"1":"63","2":"0.025875865","3":"0.023382116","4":"0.94587940","5":"0.26732484","6":"151.54341","7":"bankrut"},{"1":"64","2":"-0.180235418","3":"0.111861103","4":"0.94697777","5":"0.40256095","6":"258.28241","7":"bankrut"},{"1":"65","2":"-0.041947756","3":"-0.076299330","4":"0.97376062","5":"0.57710687","6":"187.05779","7":"bankrut"},{"1":"66","2":"-0.103042895","3":"-0.019606358","4":"1.42968083","5":"0.50373120","6":"2160.26139","7":"bankrut"},{"1":"67","2":"-0.070409236","3":"0.048487832","4":"0.55110479","5":"0.11490562","6":"629.78832","7":"bankrut"},{"1":"68","2":"-0.250960196","3":"-0.266508137","4":"1.24367412","5":"0.65515330","6":"305.33566","7":"bankrut"},{"1":"69","2":"-1.090666376","3":"-0.176194514","4":"0.10196746","5":"2.10783750","6":"248.52542","7":"bankrut"},{"1":"70","2":"-0.016410068","3":"0.010162390","4":"0.92007321","5":"0.59743805","6":"153.67081","7":"bankrut"},{"1":"71","2":"0.037654427","3":"-0.778606926","4":"0.08409612","5":"11.51171554","6":"90.77484","7":"bankrut"},{"1":"72","2":"0.020835157","3":"0.006304136","4":"1.09800829","5":"0.56322006","6":"389.84568","7":"bankrut"},{"1":"73","2":"0.009210911","3":"0.072958843","4":"1.07539540","5":"0.56099527","6":"179.85572","7":"bankrut"},{"1":"74","2":"-0.694156126","3":"-0.322381327","4":"0.31316077","5":"1.81485361","6":"102.76526","7":"bankrut"},{"1":"75","2":"-0.135372470","3":"-0.073176474","4":"0.82351891","5":"0.53911379","6":"283.41990","7":"bankrut"},{"1":"76","2":"0.066875883","3":"0.040797113","4":"2.55978746","5":"0.28205405","6":"386.51197","7":"zdrowa"},{"1":"77","2":"0.012010911","3":"0.040708515","4":"1.90124448","5":"0.08648705","6":"233.23754","7":"zdrowa"},{"1":"78","2":"0.096467556","3":"0.129286842","4":"1.65137804","5":"0.48411389","6":"308.25287","7":"zdrowa"},{"1":"79","2":"-0.089415788","3":"-0.073384887","4":"1.87606074","5":"0.41888416","6":"224.90797","7":"zdrowa"},{"1":"80","2":"0.016284557","3":"0.040600489","4":"1.39800345","5":"0.56619910","6":"267.91298","7":"zdrowa"},{"1":"81","2":"0.046571486","3":"0.040969083","4":"1.17577397","5":"0.75165635","6":"281.01760","7":"zdrowa"},{"1":"82","2":"0.014121068","3":"0.016605005","4":"1.00396564","5":"0.74107345","6":"213.05564","7":"zdrowa"},{"1":"83","2":"0.258969013","3":"0.377309656","4":"2.48447789","5":"0.13992365","6":"313.14983","7":"zdrowa"},{"1":"84","2":"-0.094641230","3":"-0.107810308","4":"1.63194083","5":"0.46209021","6":"145.38691","7":"zdrowa"},{"1":"85","2":"0.004193137","3":"0.003725978","4":"3.17912088","5":"0.24071527","6":"246.15932","7":"zdrowa"},{"1":"86","2":"0.158354627","3":"0.210817862","4":"4.21192778","5":"0.16735853","6":"197.17455","7":"zdrowa"},{"1":"87","2":"0.056347106","3":"0.036977788","4":"1.85906572","5":"0.34092136","6":"317.01218","7":"zdrowa"},{"1":"88","2":"0.045579451","3":"0.038539409","4":"3.03901144","5":"0.20400113","6":"530.91865","7":"zdrowa"},{"1":"89","2":"-0.196648311","3":"-0.008555301","4":"0.86822550","5":"0.45533797","6":"291.76858","7":"zdrowa"},{"1":"90","2":"0.005185736","3":"-0.005956493","4":"1.47608925","5":"0.39847237","6":"300.24644","7":"zdrowa"},{"1":"91","2":"0.022497744","3":"0.085761130","4":"1.29917441","5":"0.48423752","6":"244.55043","7":"zdrowa"},{"1":"92","2":"0.073657952","3":"0.017079729","4":"4.56109443","5":"0.19503846","6":"285.63455","7":"zdrowa"},{"1":"93","2":"0.016644818","3":"-0.021080788","4":"2.00502871","5":"0.34396579","6":"304.31711","7":"zdrowa"},{"1":"94","2":"0.025529411","3":"0.026645561","4":"1.59881872","5":"0.25196039","6":"286.21318","7":"zdrowa"},{"1":"95","2":"0.028024595","3":"0.038263793","4":"1.07784774","5":"0.69706281","6":"257.45704","7":"zdrowa"},{"1":"96","2":"0.062295667","3":"0.084051596","4":"1.49401512","5":"0.63408788","6":"126.76814","7":"zdrowa"},{"1":"97","2":"0.064864555","3":"0.044742518","4":"5.15550063","5":"0.12213779","6":"424.61565","7":"zdrowa"},{"1":"98","2":"0.092038971","3":"0.026146023","4":"2.36033479","5":"0.30186296","6":"175.49466","7":"zdrowa"},{"1":"99","2":"0.019439991","3":"0.080053732","4":"1.40285797","5":"0.50798755","6":"251.81718","7":"zdrowa"},{"1":"100","2":"0.229431972","3":"0.205281238","4":"3.61322464","5":"0.22639188","6":"238.63283","7":"zdrowa"},{"1":"101","2":"-0.066833549","3":"-0.069013781","4":"1.19235603","5":"0.38842785","6":"378.08733","7":"zdrowa"},{"1":"102","2":"0.095592733","3":"0.164250378","4":"1.43839930","5":"0.66889779","6":"116.65580","7":"zdrowa"},{"1":"103","2":"0.040190219","3":"-0.020292483","4":"0.97505346","5":"0.19786806","6":"4462.15390","7":"zdrowa"},{"1":"104","2":"0.008719051","3":"0.072038051","4":"1.17098662","5":"0.74761682","6":"119.88572","7":"zdrowa"},{"1":"105","2":"0.007817936","3":"-0.051189420","4":"0.86606714","5":"0.42215776","6":"329.56126","7":"zdrowa"},{"1":"106","2":"0.165877845","3":"0.092616898","4":"4.93218442","5":"0.11715349","6":"415.28275","7":"zdrowa"},{"1":"107","2":"0.063747735","3":"0.134167997","4":"2.37941358","5":"0.20908739","6":"332.69214","7":"zdrowa"},{"1":"108","2":"0.023152610","3":"0.030616133","4":"2.57694720","5":"0.18397674","6":"334.09661","7":"zdrowa"},{"1":"109","2":"0.055706940","3":"0.080789885","4":"0.99206028","5":"0.46253889","6":"135.95234","7":"zdrowa"},{"1":"110","2":"0.018479211","3":"0.053011790","4":"1.27249882","5":"0.34199006","6":"111.72623","7":"zdrowa"},{"1":"111","2":"0.033834777","3":"0.064279049","4":"1.32163239","5":"0.69945946","6":"46.90449","7":"zdrowa"},{"1":"112","2":"0.047333010","3":"0.110597072","4":"1.54659746","5":"0.52978035","6":"168.01743","7":"zdrowa"},{"1":"113","2":"0.069273126","3":"0.087602946","4":"1.69121907","5":"0.32549675","6":"566.88511","7":"zdrowa"},{"1":"114","2":"0.019674023","3":"0.061048521","4":"1.20177926","5":"0.47337554","6":"262.85933","7":"zdrowa"},{"1":"115","2":"0.010476175","3":"0.028739617","4":"2.32126599","5":"0.14632367","6":"894.49967","7":"zdrowa"},{"1":"116","2":"-0.036369575","3":"-0.007300813","4":"2.80193040","5":"0.14364943","6":"391.46682","7":"zdrowa"},{"1":"117","2":"0.006955893","3":"-0.014558347","4":"1.88740630","5":"0.21610348","6":"312.00924","7":"zdrowa"},{"1":"118","2":"0.113661814","3":"0.172542393","4":"1.50525147","5":"0.30680563","6":"252.57439","7":"zdrowa"},{"1":"119","2":"0.088908861","3":"0.154534895","4":"2.32310937","5":"0.22401246","6":"182.82475","7":"zdrowa"},{"1":"120","2":"0.081034806","3":"0.142991325","4":"2.74346686","5":"0.20169171","6":"170.67019","7":"zdrowa"},{"1":"121","2":"0.100435414","3":"0.192638897","4":"1.05000242","5":"0.54745358","6":"131.04138","7":"zdrowa"},{"1":"122","2":"0.094857917","3":"0.100155576","4":"3.35320756","5":"0.15637130","6":"275.53978","7":"zdrowa"},{"1":"123","2":"0.113426447","3":"0.121536382","4":"1.39888561","5":"0.50711951","6":"182.42295","7":"zdrowa"},{"1":"124","2":"0.003618845","3":"0.006182202","4":"3.93152938","5":"0.11244222","6":"631.20229","7":"zdrowa"},{"1":"125","2":"-0.186063270","3":"-0.192188513","4":"1.46541956","5":"0.36709308","6":"278.70062","7":"zdrowa"},{"1":"126","2":"0.054543173","3":"0.042748576","4":"1.51857630","5":"0.07342378","6":"1125.66330","7":"zdrowa"},{"1":"127","2":"-0.265148172","3":"-0.153467531","4":"1.71213067","5":"0.36923786","6":"235.31097","7":"zdrowa"},{"1":"128","2":"-0.014868734","3":"-0.018044477","4":"1.67166417","5":"0.42779262","6":"202.63387","7":"zdrowa"},{"1":"129","2":"0.104796953","3":"0.105966701","4":"3.73195876","5":"0.19450342","6":"164.59178","7":"zdrowa"},{"1":"130","2":"0.043422317","3":"0.106689222","4":"1.39399252","5":"0.22118872","6":"453.80127","7":"zdrowa"},{"1":"131","2":"0.051382586","3":"0.067150118","4":"1.61944193","5":"0.34222418","6":"230.82790","7":"zdrowa"},{"1":"132","2":"0.071705641","3":"0.074157207","4":"1.15006790","5":"0.78042714","6":"283.28459","7":"zdrowa"},{"1":"133","2":"0.153375167","3":"0.186898500","4":"1.65167945","5":"0.44135757","6":"229.22220","7":"zdrowa"},{"1":"134","2":"-0.031395773","3":"-0.044889736","4":"1.40037941","5":"0.54271918","6":"139.69693","7":"zdrowa"},{"1":"135","2":"0.001593307","3":"0.005258163","4":"1.37008303","5":"0.32154580","6":"328.26636","7":"zdrowa"},{"1":"136","2":"0.018002436","3":"0.077177404","4":"0.45251682","5":"0.48230847","6":"221.04375","7":"zdrowa"},{"1":"137","2":"-0.325382889","3":"-0.325911522","4":"1.71590821","5":"0.19357448","6":"516.63833","7":"zdrowa"},{"1":"138","2":"0.030747823","3":"0.039079036","4":"1.08558606","5":"0.22764995","6":"657.18463","7":"zdrowa"},{"1":"139","2":"0.042626106","3":"0.041594171","4":"0.98813449","5":"0.49152999","6":"123.02507","7":"zdrowa"},{"1":"140","2":"0.055066771","3":"0.034389352","4":"4.65078086","5":"0.14013215","6":"162.66681","7":"zdrowa"},{"1":"141","2":"0.065873089","3":"0.083175701","4":"1.20399451","5":"0.50512129","6":"139.32764","7":"zdrowa"},{"1":"142","2":"0.066608171","3":"0.077259803","4":"0.90899993","5":"0.49006627","6":"191.05523","7":"zdrowa"},{"1":"143","2":"0.078523648","3":"0.125359956","4":"0.96681197","5":"0.46535429","6":"207.18946","7":"zdrowa"},{"1":"144","2":"0.119165301","3":"0.088696900","4":"3.08533470","5":"0.18314824","6":"263.77542","7":"zdrowa"},{"1":"145","2":"0.031279692","3":"0.050735239","4":"1.63155456","5":"0.51449399","6":"71.49114","7":"zdrowa"},{"1":"146","2":"-0.080665408","3":"-0.082405302","4":"3.09596457","5":"0.18659320","6":"233.02682","7":"zdrowa"},{"1":"147","2":"0.020727258","3":"0.011581553","4":"0.96856235","5":"0.59024300","6":"77.48553","7":"zdrowa"},{"1":"148","2":"0.043643512","3":"0.115150721","4":"1.64906491","5":"0.39170539","6":"233.68968","7":"zdrowa"},{"1":"149","2":"0.027636567","3":"0.050759893","4":"0.52598092","5":"0.61040796","6":"154.93173","7":"zdrowa"},{"1":"150","2":"0.014345336","3":"0.023711714","4":"1.47240431","5":"0.57328161","6":"311.25611","7":"zdrowa"},{"1":"151","2":"-0.155975422","3":"-0.095637446","4":"0.71079195","5":"0.71709670","6":"240.49346","7":"bankrut"},{"1":"152","2":"-0.111222892","3":"-0.118144066","4":"0.99451578","5":"0.75333864","6":"350.86105","7":"bankrut"},{"1":"153","2":"0.001408465","3":"0.068711013","4":"1.02974421","5":"0.48151280","6":"410.96442","7":"bankrut"},{"1":"154","2":"-0.230129478","3":"-0.073319606","4":"0.82168302","5":"0.66298293","6":"201.11237","7":"bankrut"},{"1":"155","2":"-0.809041917","3":"-0.591304570","4":"0.73440683","5":"1.19683987","6":"121.51053","7":"bankrut"},{"1":"156","2":"0.041288682","3":"0.062789318","4":"0.87466158","5":"0.65903684","6":"236.46492","7":"bankrut"},{"1":"157","2":"-0.037922968","3":"-0.054824976","4":"0.18626071","5":"0.71905467","6":"302.20627","7":"bankrut"},{"1":"158","2":"-0.070813420","3":"-0.052162171","4":"0.72614736","5":"0.74692494","6":"402.99400","7":"bankrut"},{"1":"159","2":"-0.063573956","3":"-0.078356637","4":"0.54390295","5":"0.71868115","6":"351.52754","7":"bankrut"},{"1":"160","2":"-0.149288811","3":"-0.126450926","4":"0.94618688","5":"0.97637221","6":"230.20756","7":"bankrut"},{"1":"161","2":"0.009452855","3":"0.019853382","4":"1.17902657","5":"0.70225669","6":"312.88620","7":"bankrut"},{"1":"162","2":"-0.178952142","3":"-0.085279784","4":"1.19736890","5":"0.18521693","6":"1120.28690","7":"bankrut"},{"1":"163","2":"0.002555126","3":"0.042256040","4":"2.95358847","5":"0.33190479","6":"293.60317","7":"bankrut"},{"1":"164","2":"0.017853154","3":"-0.021751400","4":"1.01159089","5":"0.74267328","6":"250.56772","7":"bankrut"},{"1":"165","2":"-0.058205107","3":"0.035926973","4":"0.80042675","5":"0.61152281","6":"260.02992","7":"bankrut"},{"1":"166","2":"0.045281309","3":"0.124685732","4":"1.59012264","5":"0.52939122","6":"139.48635","7":"zdrowa"},{"1":"167","2":"-0.351255266","3":"-0.403783809","4":"0.63440938","5":"0.51888605","6":"90.57759","7":"zdrowa"},{"1":"168","2":"0.002232864","3":"0.021051581","4":"2.12500000","5":"0.45657568","6":"80.38662","7":"zdrowa"},{"1":"169","2":"0.134565705","3":"0.138903782","4":"0.89557777","5":"0.41689260","6":"83.89991","7":"zdrowa"},{"1":"170","2":"0.139529791","3":"0.188153869","4":"1.25145214","5":"0.61147212","6":"87.58339","7":"zdrowa"},{"1":"171","2":"0.016001914","3":"0.072532041","4":"1.22213019","5":"0.59174259","6":"213.32449","7":"zdrowa"},{"1":"172","2":"0.247574465","3":"0.317112764","4":"1.71012778","5":"0.55737272","6":"54.88779","7":"zdrowa"},{"1":"173","2":"0.027423122","3":"-0.019119467","4":"1.58845664","5":"0.38890426","6":"547.10907","7":"zdrowa"},{"1":"174","2":"0.037884234","3":"0.063619652","4":"1.62593043","5":"0.24574895","6":"232.76227","7":"zdrowa"},{"1":"175","2":"0.054867689","3":"0.054718472","4":"0.81950067","5":"0.57787078","6":"123.11856","7":"zdrowa"},{"1":"176","2":"-0.207533447","3":"-0.071226813","4":"0.75453432","5":"0.37377337","6":"270.76988","7":"zdrowa"},{"1":"177","2":"0.045612281","3":"0.049668842","4":"2.61072727","5":"0.24323727","6":"140.00076","7":"zdrowa"},{"1":"178","2":"0.153568691","3":"0.005701790","4":"4.78712297","5":"0.14575583","6":"532.93845","7":"zdrowa"},{"1":"179","2":"0.019510991","3":"0.030818666","4":"1.88259669","5":"0.46618017","6":"198.61489","7":"zdrowa"},{"1":"180","2":"0.050811785","3":"0.076018415","4":"3.06057245","5":"0.18979881","6":"308.78867","7":"zdrowa"}],"options":{"columns":{"min":{},"max":[10],"total":[7]},"rows":{"min":[10],"max":[10],"total":[180]},"pages":{}}}
+  </script>
+</div>
+<!-- rnb-frame-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
-<p>Zadaniem jest zapisanie nie tylko jednej ramki danych ale chcielibyśmy utworzyć więcej arkuszy w skoroszycie MS Excel.</p>
+<p>Aby wykonać test jednej lub dwóch średnich należy zastosować funkcję <code>t.test()</code></p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlzdGFfZGFueWNoIDwtIGxpc3QoXCJaYmlvciBtdGNhcnNcIiA9IG10Y2FycyxcbiAgICAgICAgICAgICAgICAgICAgIFwiSXJpcyAtIDJcIiA9IGlyaXMpXG5zdHIobGlzdGFfZGFueWNoLDEpXG5cbndyaXRlLnhsc3goeCA9IGxpc3RhX2RhbnljaCwgZmlsZSA9IFwiLi4vcmVzdWx0cy8yLXdpZWxlLXRhYmVsLnhsc3hcIiwgYXNUYWJsZSA9IFRSVUUpXG5gYGAifQ== -->
-<pre class="r"><code>lista_danych &lt;- list(&quot;Zbior mtcars&quot; = mtcars,
-                     &quot;Iris - 2&quot; = iris)
-str(lista_danych,1)
-
-write.xlsx(x = lista_danych, file = &quot;../results/2-wiele-tabel.xlsx&quot;, asTable = TRUE)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<p>W pakiecie openxlsx są następujące globalne opcje – działają na całym skoroszycie czyli dla wszystkich arkuszy</p>
-<ul>
-<li>openxlsx.borderColour</li>
-<li>openxlsx.borderStyle</li>
-<li>openxlsx.dateFormat</li>
-<li>openxlsx.datetimeFormat</li>
-<li>openxlsx.numFmt</li>
-<li>openxlsx.paperSize</li>
-<li>openxlsx.orientation</li>
-</ul>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxub3B0aW9ucyhcIm9wZW54bHN4Lm51bUZtdFwiID0gXCIwLjAwXCIpXG53cml0ZS54bHN4KHggPSBsaXN0YV9kYW55Y2gsIGZpbGUgPSBcIi4uL3Jlc3VsdHMvMy1mb3JtYXRvd2FuaWUueGxzeFwiLCBhc1RhYmxlID0gVFJVRSlcbmBgYCJ9 -->
-<pre class="r"><code>options(&quot;openxlsx.numFmt&quot; = &quot;0.00&quot;)
-write.xlsx(x = lista_danych, file = &quot;../results/3-formatowanie.xlsx&quot;, asTable = TRUE)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<p>Naszym zadaniem jest utworzenie pliku MS Excel, który będzie zawierał:</p>
-<ul>
-<li>arkusz ze spisem treści</li>
-<li>arkusz z danymi</li>
-<li>arkusz z jakimś obliczeniami na podstawie danych (będziemy chcieli użyć formuł excela)</li>
-<li>arkusz z danymi ale z naniesionym formatowaniem warunkowym</li>
-</ul>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2tvcm9zenl0IDwtIGNyZWF0ZVdvcmtib29rKGNyZWF0b3IgPSBcIk1hY2llalwiLCB0aXRsZSA9IFwiTkFEMlwiLCBjYXRlZ29yeSA9IFwiUmFwb3J0XCIpXG5za29yb3N6eXRcbmBgYCJ9 -->
-<pre class="r"><code>skoroszyt &lt;- createWorkbook(creator = &quot;Maciej&quot;, title = &quot;NAD2&quot;, category = &quot;Raport&quot;)
-skoroszyt</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<p>Jak dodać arkusz do takiego obiektu <code>skoroszyt</code>? Należy użyć funkcji <code>addWorksheet</code></p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuI3JlbW92ZVdvcmtzaGVldCh3YiA9IHNrb3Jvc3p5dCwgc2hlZXQgPSBcIlNwaXMgdHJlxZtjaVwiKSAjIyB1c3V3YSBpc3RuaWVqYWN5IGFya3VzelxuXG5hZGRXb3Jrc2hlZXQod2IgPSBza29yb3N6eXQsIHNoZWV0TmFtZSA9IFwiU3BpcyB0cmXFm2NpXCIsIGdyaWRMaW5lcyA9IEZBTFNFLCB0YWJDb2xvdXIgPSBcInJlZFwiKVxuXG4jIyB6YXBpc3plbXkgb2JpZWt0IHNrb3Jvc3p5dCBkbyBwbGlrdVxuXG5zYXZlV29ya2Jvb2sod2IgPSBza29yb3N6eXQsIGZpbGUgPSBcIi4uL3Jlc3VsdHMvNC1rcm9rLXBvLWtyb2t1Lnhsc3hcIiwgb3ZlcndyaXRlID0gVFJVRSlcbmBgYCJ9 -->
-<pre class="r"><code>#removeWorksheet(wb = skoroszyt, sheet = &quot;Spis treści&quot;) ## usuwa istniejacy arkusz
-
-addWorksheet(wb = skoroszyt, sheetName = &quot;Spis treści&quot;, gridLines = FALSE, tabColour = &quot;red&quot;)
-
-## zapiszemy obiekt skoroszyt do pliku
-
-saveWorkbook(wb = skoroszyt, file = &quot;../results/4-krok-po-kroku.xlsx&quot;, overwrite = TRUE)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<p>Stworzmy kolejny arkusz o nazwie “Dane źródłowe”, który będzie zawierał ramkę danych mtcars. Jakie mamy wymogi dotyczące tego arkusza:</p>
-<ul>
-<li>dane mają być tabelą, której kolor sobie sami chcemy określić</li>
-<li>chce zablokować 1 wiersz tabeli (stały wiersz)</li>
-</ul>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyMgZG9kYW5pYSBhcmt1c3phXG5hZGRXb3Jrc2hlZXQod2IgPSBza29yb3N6eXQsIHNoZWV0TmFtZSA9IFwiRGFuZSDFunLDs2TFgm93ZVwiKVxuXG4jIyBjaGNlbXkgemFwaXNhxIcgZGFuZSBkbyBuYXN6ZWdvIGFya3VzemEgIC0tIHdyaXRlRGF0YSBhbGJvIHdyaXRlRGF0YVRhYmxlXG53cml0ZURhdGFUYWJsZSh3YiA9IHNrb3Jvc3p5dCwgc2hlZXQgPSBcIkRhbmUgxbpyw7NkxYJvd2VcIiwgeCA9IG10Y2FycywgXG4gICAgICAgICAgICAgICBjb2xOYW1lcyA9IFRSVUUsIHRhYmxlU3R5bGUgPSBcIlRhYmxlU3R5bGVNZWRpdW0zXCIpXG5cbiMjIGNoY2VteSB6YWJsb2tvd2HEhyBwaWVyd3N6eSB3aWVyc3pcbmZyZWV6ZVBhbmUod2IgPSBza29yb3N6eXQsIHNoZWV0ID0gXCJEYW5lIMW6csOzZMWCb3dlXCIsIGZpcnN0Um93ID0gVFJVRSlcblxuc2F2ZVdvcmtib29rKHdiID0gc2tvcm9zenl0LCBmaWxlID0gXCIuLi9yZXN1bHRzLzQta3Jvay1wby1rcm9rdS54bHN4XCIsIG92ZXJ3cml0ZSA9IFRSVUUpXG5gYGAifQ== -->
-<pre class="r"><code>## dodania arkusza
-addWorksheet(wb = skoroszyt, sheetName = &quot;Dane źródłowe&quot;)
-
-## chcemy zapisać dane do naszego arkusza  -- writeData albo writeDataTable
-writeDataTable(wb = skoroszyt, sheet = &quot;Dane źródłowe&quot;, x = mtcars, 
-               colNames = TRUE, tableStyle = &quot;TableStyleMedium3&quot;)
-
-## chcemy zablokować pierwszy wiersz
-freezePane(wb = skoroszyt, sheet = &quot;Dane źródłowe&quot;, firstRow = TRUE)
-
-saveWorkbook(wb = skoroszyt, file = &quot;../results/4-krok-po-kroku.xlsx&quot;, overwrite = TRUE)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<p>Tworzymy nowy arkusz, w którym dokonywane będą obliczenia wykorzystujace funkcje MS Excel</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyMgdHdvcnp5bXkgbm93eSBhcmt1c3ogbyBuYXp3aWUgXCJvYmxpY3plbmlhXCJcblxuYWRkV29ya3NoZWV0KHdiID0gc2tvcm9zenl0LCBzaGVldE5hbWUgPSBcIk9ibGljemVuaWFcIiwgdGFiQ29sb3VyID0gXCJibGFja1wiKVxuXG4jIyB3cGlzdWplbXkgZG8gb2tyZcWbbG9ueWNoIGtvbcOzcmVrIHdhcnRvxZtjaVxud3JpdGVEYXRhKHdiID0gc2tvcm9zenl0LCBzaGVldCA9IFwiT2JsaWN6ZW5pYVwiLCB4eSA9IGMoXCJBXCIsIDIpLCB4ID0gXCJabWllbm5hIDE6XCIpXG53cml0ZURhdGEod2IgPSBza29yb3N6eXQsIHNoZWV0ID0gXCJPYmxpY3plbmlhXCIsIHh5ID0gYyhcIkFcIiwgMyksIHggPSBcIlptaWVubmEgMjpcIilcbndyaXRlRGF0YSh3YiA9IHNrb3Jvc3p5dCwgc2hlZXQgPSBcIk9ibGljemVuaWFcIiwgeHkgPSBjKFwiQlwiLCAyKSwgeCA9IDEwKVxud3JpdGVEYXRhKHdiID0gc2tvcm9zenl0LCBzaGVldCA9IFwiT2JsaWN6ZW5pYVwiLCB4eSA9IGMoXCJCXCIsIDMpLCB4ID0gNSlcblxuIyMgxbxlYnkgZG9kYcSHIGZvcm11xYLEmSBtdXNpbXkgc2tvcnp5c3RhYyB6IGZ1bmtjamkgd3JpdGVGb3JtdWxhXG53cml0ZURhdGEod2IgPSBza29yb3N6eXQsIHNoZWV0ID0gXCJPYmxpY3plbmlhXCIsIHh5ID0gYyhcIkFcIiwgNSksIHggPSBcIld5bmlrOlwiKVxuXG53cml0ZUZvcm11bGEod2IgPSBza29yb3N6eXQsIHNoZWV0ID0gXCJPYmxpY3plbmlhXCIsIHh5ID0gYyhcIkJcIiwgNSksIHggPSBcIlJPVU5EKFNRUlQoQjIqQjMpLCAzKVwiKVxuXG5zYXZlV29ya2Jvb2sod2IgPSBza29yb3N6eXQsIGZpbGUgPSBcIi4uL3Jlc3VsdHMvNC1rcm9rLXBvLWtyb2t1Lnhsc3hcIiwgb3ZlcndyaXRlID0gVFJVRSlcblxuYGBgIn0= -->
-<pre class="r"><code>## tworzymy nowy arkusz o nazwie &quot;obliczenia&quot;
-
-addWorksheet(wb = skoroszyt, sheetName = &quot;Obliczenia&quot;, tabColour = &quot;black&quot;)
-
-## wpisujemy do określonych komórek wartości
-writeData(wb = skoroszyt, sheet = &quot;Obliczenia&quot;, xy = c(&quot;A&quot;, 2), x = &quot;Zmienna 1:&quot;)
-writeData(wb = skoroszyt, sheet = &quot;Obliczenia&quot;, xy = c(&quot;A&quot;, 3), x = &quot;Zmienna 2:&quot;)
-writeData(wb = skoroszyt, sheet = &quot;Obliczenia&quot;, xy = c(&quot;B&quot;, 2), x = 10)
-writeData(wb = skoroszyt, sheet = &quot;Obliczenia&quot;, xy = c(&quot;B&quot;, 3), x = 5)
-
-## żeby dodać formułę musimy skorzystac z funkcji writeFormula
-writeData(wb = skoroszyt, sheet = &quot;Obliczenia&quot;, xy = c(&quot;A&quot;, 5), x = &quot;Wynik:&quot;)
-
-writeFormula(wb = skoroszyt, sheet = &quot;Obliczenia&quot;, xy = c(&quot;B&quot;, 5), x = &quot;ROUND(SQRT(B2*B3), 3)&quot;)
-
-saveWorkbook(wb = skoroszyt, file = &quot;../results/4-krok-po-kroku.xlsx&quot;, overwrite = TRUE)
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudC50ZXN0KHggPSBzcG9sa2kkcm9hLCBtdSA9IDApXG5cbmBgYCJ9 -->
+<pre class="r"><code>t.test(x = spolki$roa, mu = 0)
 </code></pre>
 <!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG5cdE9uZSBTYW1wbGUgdC10ZXN0XG5cbmRhdGE6ICBzcG9sa2kkcm9hXG50ID0gLTQuMTM2MSwgZGYgPSAxNzksIHAtdmFsdWUgPSA1LjQyNmUtMDVcbmFsdGVybmF0aXZlIGh5cG90aGVzaXM6IHRydWUgbWVhbiBpcyBub3QgZXF1YWwgdG8gMFxuOTUgcGVyY2VudCBjb25maWRlbmNlIGludGVydmFsOlxuIC0wLjEwNTU3NTU5IC0wLjAzNzM3NDg3XG5zYW1wbGUgZXN0aW1hdGVzOlxuICBtZWFuIG9mIHggXG4tMC4wNzE0NzUyMyBcbiJ9 -->
+<pre><code>
+    One Sample t-test
+
+data:  spolki$roa
+t = -4.1361, df = 179, p-value = 5.426e-05
+alternative hypothesis: true mean is not equal to 0
+95 percent confidence interval:
+ -0.10557559 -0.03737487
+sample estimates:
+  mean of x 
+-0.07147523 </code></pre>
+<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
-<p>Tworzymy arkusz, w którym będziemy nakładali formatowanie warunkowe</p>
+<p>Opis wydruku</p>
+<ul>
+<li><code>One Sample t-test</code> – informacja, że wykonano test jednej średniej</li>
+<li><code>data:  spolki$roa</code> – jaki wektor był testowany</li>
+<li><code>t = -4.1361, df = 179, p-value = 5.426e-05</code> – statystyka testowa (t)</li>
+<li><code>alternative hypothesis: true mean is not equal to 0</code> – jaka jest hipoteza alternatywna</li>
+<li><code>95 percent confidence interval:  -0.10557559 -0.03737487</code> – 95% prawdopodobieństwem średnia w populacji jest w tym przedziale</li>
+<li><code>sample estimates: mean of x = -0.07147523</code> – średnia z próby</li>
+</ul>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyMgZG9kYWplbXkgYXJrdXN6XG5hZGRXb3Jrc2hlZXQod2IgPSBza29yb3N6eXQsIHNoZWV0ID0gXCJGb3JtYXRvd2FuaWVcIilcbiMjIHdwaXN1amVteSBkYW5lXG53cml0ZURhdGEod2IgPSBza29yb3N6eXQsIHNoZWV0ID0gXCJGb3JtYXRvd2FuaWVcIiwgeCA9IG10Y2FycylcblxuIyMgZG9kYWplbXkgZm9ybWF0b3dhbmllIHdhcnVua293ZSBcbmNvbmRpdGlvbmFsRm9ybWF0dGluZyh3YiA9IHNrb3Jvc3p5dCwgXG4gICAgICAgICAgICAgICAgICAgICAgc2hlZXQgPSBcIkZvcm1hdG93YW5pZVwiLFxuICAgICAgICAgICAgICAgICAgICAgIGNvbHMgPSAzLFxuICAgICAgICAgICAgICAgICAgICAgIHJvd3MgPSAyOihucm93KG10Y2FycykrMSksXG4gICAgICAgICAgICAgICAgICAgICAgdHlwZSA9IFwiZGF0YWJhclwiKVxuXG4jIyBjaGNlbXkgYWJ5IGtvbcOzcmtpIGJ5xYJ5IHd5cGXFgm5pb25lIGpha2ltxZsga29sb3JlbSBuYSBwb2RzdGF3aWUgb2tyZXNsb25lZ28gd2FydW5rdVxuIyMgMS4gdHJ6ZWJhIHV0d29yennEhyBmb3JtYXRcbm5hc3pfZm9ybWF0IDwtIGNyZWF0ZVN0eWxlKGJnRmlsbCA9IFwiI0ZGQzdDRVwiKSAjIyB3eXBlxYJuaWVuaWUga29tw7Nya2lcblxuIyMgMi4gbmFkYWplbXkgZm9ybWF0b3dhbmllIHdhcnVua293ZSBcbmNvbmRpdGlvbmFsRm9ybWF0dGluZyh3YiA9IHNrb3Jvc3p5dCxcbiAgICAgICAgICAgICAgICAgICAgICBzaGVldCA9IFwiRm9ybWF0b3dhbmllXCIsXG4gICAgICAgICAgICAgICAgICAgICAgY29scyA9IDEsXG4gICAgICAgICAgICAgICAgICAgICAgcm93cyA9IDI6KG5yb3cobXRjYXJzKSsxKSxcbiAgICAgICAgICAgICAgICAgICAgICAjcnVsZSA9IFwiPjIwXCIsXG4gICAgICAgICAgICAgICAgICAgICAgcnVsZSA9IHBhc3RlKFwiPlwiLCBtZWRpYW4obXRjYXJzJG1wZykpLFxuICAgICAgICAgICAgICAgICAgICAgIHN0eWxlID0gbmFzel9mb3JtYXQpXG5cbnNhdmVXb3JrYm9vayh3YiA9IHNrb3Jvc3p5dCwgZmlsZSA9IFwiLi4vcmVzdWx0cy80LWtyb2stcG8ta3Jva3UueGxzeFwiLCBvdmVyd3JpdGUgPSBUUlVFKVxuYGBgIn0= -->
-<pre class="r"><code>## dodajemy arkusz
-addWorksheet(wb = skoroszyt, sheet = &quot;Formatowanie&quot;)
-## wpisujemy dane
-writeData(wb = skoroszyt, sheet = &quot;Formatowanie&quot;, x = mtcars)
-
-## dodajemy formatowanie warunkowe 
-conditionalFormatting(wb = skoroszyt, 
-                      sheet = &quot;Formatowanie&quot;,
-                      cols = 3,
-                      rows = 2:(nrow(mtcars)+1),
-                      type = &quot;databar&quot;)
-
-## chcemy aby komórki były wypełnione jakimś kolorem na podstawie okreslonego warunku
-## 1. trzeba utworzyć format
-nasz_format &lt;- createStyle(bgFill = &quot;#FFC7CE&quot;) ## wypełnienie komórki
-
-## 2. nadajemy formatowanie warunkowe 
-conditionalFormatting(wb = skoroszyt,
-                      sheet = &quot;Formatowanie&quot;,
-                      cols = 1,
-                      rows = 2:(nrow(mtcars)+1),
-                      #rule = &quot;&gt;20&quot;,
-                      rule = paste(&quot;&gt;&quot;, median(mtcars$mpg)),
-                      style = nasz_format)
-
-saveWorkbook(wb = skoroszyt, file = &quot;../results/4-krok-po-kroku.xlsx&quot;, overwrite = TRUE)</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudC50ZXN0KHggPSBzcG9sa2kkcm9hLCBtdSA9IDAsIGFsdGVybmF0aXZlID0gXCJsZXNzXCIpIFxuYGBgIn0= -->
+<pre class="r"><code>t.test(x = spolki$roa, mu = 0, alternative = &quot;less&quot;) </code></pre>
 <!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG5cdE9uZSBTYW1wbGUgdC10ZXN0XG5cbmRhdGE6ICBzcG9sa2kkcm9hXG50ID0gLTQuMTM2MSwgZGYgPSAxNzksIHAtdmFsdWUgPSAyLjcxM2UtMDVcbmFsdGVybmF0aXZlIGh5cG90aGVzaXM6IHRydWUgbWVhbiBpcyBsZXNzIHRoYW4gMFxuOTUgcGVyY2VudCBjb25maWRlbmNlIGludGVydmFsOlxuICAgICAgICAtSW5mIC0wLjA0MjkwMjkyXG5zYW1wbGUgZXN0aW1hdGVzOlxuICBtZWFuIG9mIHggXG4tMC4wNzE0NzUyMyBcbiJ9 -->
+<pre><code>
+    One Sample t-test
+
+data:  spolki$roa
+t = -4.1361, df = 179, p-value = 2.713e-05
+alternative hypothesis: true mean is less than 0
+95 percent confidence interval:
+        -Inf -0.04290292
+sample estimates:
+  mean of x 
+-0.07147523 </code></pre>
+<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
-<p>Został nam spis treści do uzupełnienia wraz z tytułem “Spis treści”</p>
-<ol style="list-style-type: decimal">
-<li>napisać w B5 tekst “Spis treści”</li>
-<li>tekst był sformatowany</li>
-<li>stworzymy spis treści</li>
-</ol>
+<p>Porównanie dwóch średnich</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubmFtZXMoc2tvcm9zenl0KSAjIyBuYXp3eSBhcmt1c3p5XG5gYGAifQ== -->
-<pre class="r"><code>names(skoroszyt) ## nazwy arkuszy</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxud3JpdGVEYXRhKHdiID0gc2tvcm9zenl0LCBzaGVldCA9IFwiU3BpcyB0cmXFm2NpXCIsIHggPSBcIlNwaXMgVHJlxZtjaVwiLCB4eSA9IGMoXCJCXCIsIDUpKVxuXG4jIyB0d29yenlteSBzdHlsIHcgamFraW0gYsSZZHppZSB6YXBpc2FueSB0ZWtzdCBzcGlzIHRyZcWbY2lcbnNwaXNfZm9ybWF0IDwtIGNyZWF0ZVN0eWxlKGZvbnROYW1lID0gXCJCcmFnZ2Fkb2Npb1wiLCBmb250U2l6ZSA9IDIwLCB0ZXh0Um90YXRpb24gPSAxNSlcblxuIyMgZG9kYWplbXkgdGVuIGZvcm1hdCBkbyBkYW5laiBrb23Ds3JraVxuYWRkU3R5bGUod2IgPSBza29yb3N6eXQsIHNoZWV0ID0gXCJTcGlzIHRyZcWbY2lcIiwgc3R5bGUgPSBzcGlzX2Zvcm1hdCwgcm93cyA9IDUsIGNvbHMgPSAyKVxuXG5zYXZlV29ya2Jvb2sod2IgPSBza29yb3N6eXQsIGZpbGUgPSBcIi4uL3Jlc3VsdHMvNC1rcm9rLXBvLWtyb2t1Lnhsc3hcIiwgb3ZlcndyaXRlID0gVFJVRSlcbmBgYCJ9 -->
-<pre class="r"><code>writeData(wb = skoroszyt, sheet = &quot;Spis treści&quot;, x = &quot;Spis Treści&quot;, xy = c(&quot;B&quot;, 5))
-
-## tworzymy styl w jakim będzie zapisany tekst spis treści
-spis_format &lt;- createStyle(fontName = &quot;Braggadocio&quot;, fontSize = 20, textRotation = 15)
-
-## dodajemy ten format do danej komórki
-addStyle(wb = skoroszyt, sheet = &quot;Spis treści&quot;, style = spis_format, rows = 5, cols = 2)
-
-saveWorkbook(wb = skoroszyt, file = &quot;../results/4-krok-po-kroku.xlsx&quot;, overwrite = TRUE)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<p>Dodajemy do arkusza spis treści odwołania do konkretnych arkuszy</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxud3JpdGVGb3JtdWxhKHdiID0gc2tvcm9zenl0LCBzaGVldCA9IFwiU3BpcyB0cmXFm2NpXCIsIHh5ID0gYyhcIkJcIiwgNyksIFxuICAgICAgICAgICAgIHggPSBtYWtlSHlwZXJsaW5rU3RyaW5nKHNoZWV0ID0gXCJEYW5lIMW6csOzZMWCb3dlXCIsIHJvdyA9IDUsIGNvbCA9IDMsXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgdGV4dCA9IFwiUm96ZHppYcWCIDE6IGRhbmUgxbpyw7NkxYJvd2VcIikpXG5cbndyaXRlRm9ybXVsYSh3YiA9IHNrb3Jvc3p5dCwgc2hlZXQgPSBcIlNwaXMgdHJlxZtjaVwiLCB4eSA9IGMoXCJCXCIsIDgpLCBcbiAgICAgICAgICAgICB4ID0gbWFrZUh5cGVybGlua1N0cmluZyhzaGVldCA9IFwiT2JsaWN6ZW5pYVwiLCBcbiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB0ZXh0ID0gXCJSb3pkemlhxYIgMjogb2JsaWN6ZW5pYVwiKSlcblxud3JpdGVGb3JtdWxhKHdiID0gc2tvcm9zenl0LCBzaGVldCA9IFwiU3BpcyB0cmXFm2NpXCIsIHh5ID0gYyhcIkJcIiwgOSksIFxuICAgICAgICAgICAgIHggPSBtYWtlSHlwZXJsaW5rU3RyaW5nKHNoZWV0ID0gXCJGb3JtYXRvd2FuaWVcIiwgXG4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgdGV4dCA9IFwiUm96ZHppYcWCIDM6IGZvcm1hdG93YW5pZVwiKSlcblxuXG5zYXZlV29ya2Jvb2sod2IgPSBza29yb3N6eXQsIGZpbGUgPSBcIi4uL3Jlc3VsdHMvNC1rcm9rLXBvLWtyb2t1Lnhsc3hcIiwgb3ZlcndyaXRlID0gVFJVRSlcblxuYGBgIn0= -->
-<pre class="r"><code>writeFormula(wb = skoroszyt, sheet = &quot;Spis treści&quot;, xy = c(&quot;B&quot;, 7), 
-             x = makeHyperlinkString(sheet = &quot;Dane źródłowe&quot;, row = 5, col = 3,
-                                     text = &quot;Rozdział 1: dane źródłowe&quot;))
-
-writeFormula(wb = skoroszyt, sheet = &quot;Spis treści&quot;, xy = c(&quot;B&quot;, 8), 
-             x = makeHyperlinkString(sheet = &quot;Obliczenia&quot;, 
-                                     text = &quot;Rozdział 2: obliczenia&quot;))
-
-writeFormula(wb = skoroszyt, sheet = &quot;Spis treści&quot;, xy = c(&quot;B&quot;, 9), 
-             x = makeHyperlinkString(sheet = &quot;Formatowanie&quot;, 
-                                     text = &quot;Rozdział 3: formatowanie&quot;))
-
-
-saveWorkbook(wb = skoroszyt, file = &quot;../results/4-krok-po-kroku.xlsx&quot;, overwrite = TRUE)
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudC50ZXN0KGZvcm11bGEgPSByb2EgfiBncnVwYSwgZGF0YSA9IHNwb2xraSlcblxuYGBgIn0= -->
+<pre class="r"><code>t.test(formula = roa ~ grupa, data = spolki)
 </code></pre>
 <!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiXG5cdFdlbGNoIFR3byBTYW1wbGUgdC10ZXN0XG5cbmRhdGE6ICByb2EgYnkgZ3J1cGFcbnQgPSAtNi42MDczLCBkZiA9IDExMS42OSwgcC12YWx1ZSA9IDEuMzg1ZS0wOVxuYWx0ZXJuYXRpdmUgaHlwb3RoZXNpczogdHJ1ZSBkaWZmZXJlbmNlIGluIG1lYW5zIGlzIG5vdCBlcXVhbCB0byAwXG45NSBwZXJjZW50IGNvbmZpZGVuY2UgaW50ZXJ2YWw6XG4gLTAuMjY2NzU0NSAtMC4xNDM2NzQwXG5zYW1wbGUgZXN0aW1hdGVzOlxubWVhbiBpbiBncm91cCBiYW5rcnV0ICBtZWFuIGluIGdyb3VwIHpkcm93YSBcbiAgICAgICAgICAtMC4xNzQwODIzNSAgICAgICAgICAgIDAuMDMxMTMxODkgXG4ifQ== -->
+<pre><code>
+    Welch Two Sample t-test
+
+data:  roa by grupa
+t = -6.6073, df = 111.69, p-value = 1.385e-09
+alternative hypothesis: true difference in means is not equal to 0
+95 percent confidence interval:
+ -0.2667545 -0.1436740
+sample estimates:
+mean in group bankrut  mean in group zdrowa 
+          -0.17408235            0.03113189 </code></pre>
+<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
-<p>Sum of x Average of x2 55 5,5</p>
-<p>Naszym zadaniem jest:</p>
-<ol style="list-style-type: decimal">
-<li>wczytać istniejacy plik</li>
-<li>podmienić dane w tabeli</li>
-<li>zapiszemy tabelę</li>
-</ol>
+<ul>
+<li><code>Welch Two Sample t-test</code> – test porównania dwóch grup, a dokładnie porównania dwóch średnich przy założeniu, że wariancje są różne (<code>var.equal = FALSE</code>) oraz grupy zawierają różne spółki (<code>paired = FALSE</code>)</li>
+<li><code>data:  roa by grupa</code> – analizujemy roa wg zmiennej grupa</li>
+<li><code>t = -6.6073, df = 111.69, p-value = 1.385e-09</code> – wartość statystyki testowej</li>
+<li><code>alternative hypothesis: true difference in means is not equal to 0</code> –</li>
+<li><code>95 percent confidence interval:  -0.2667545 -0.1436740</code> – przedział ufności dla różnicy (bankruci - zdrowych)</li>
+<li><code>sample estimates:</code> średnie z próby</li>
+</ul>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucGl2b3QgPC0gbG9hZFdvcmtib29rKGZpbGUgPSBcIi4uL3Jlc3VsdHMvdGFiZWxhLXByemVzdGF3bmEueGxzeFwiKVxucGl2b3RcbmBgYCJ9 -->
-<pre class="r"><code>pivot &lt;- loadWorkbook(file = &quot;../results/tabela-przestawna.xlsx&quot;)
-pivot</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxudC50ZXN0KGZvcm11bGEgPSByb2EgfiBncnVwYSwgZGF0YSA9IHNwb2xraSwgYWx0ZXJuYXRpdmUgPSBcImxlc3NcIilcblxuYGBgIn0= -->
+<pre class="r"><code>t.test(formula = roa ~ grupa, data = spolki, alternative = &quot;less&quot;)
+</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyMgcG9kbWllbmlhbXkgd2FydG/Fm8SHIHcga29tw7NyY2UgQTdcbndyaXRlRGF0YSh3YiA9IHBpdm90LCBzaGVldCA9IFwiZGFuZVwiLCB4eSA9IGMoXCJBXCIsIDcpLCB4ID0gMTUpXG4jIyB6YXBpc3VqZW15IHBsaWtcbnNhdmVXb3JrYm9vayh3YiA9IHBpdm90LCBmaWxlID0gXCIuLi9yZXN1bHRzL3RhYmVsYS1wcnplc3Rhd25hLTIueGxzeFwiLCBvdmVyd3JpdGUgPSBUUlVFKVxuYGBgIn0= -->
-<pre class="r"><code>## podmieniamy wartość w komórce A7
-writeData(wb = pivot, sheet = &quot;dane&quot;, xy = c(&quot;A&quot;, 7), x = 15)
-## zapisujemy plik
-saveWorkbook(wb = pivot, file = &quot;../results/tabela-przestawna-2.xlsx&quot;, overwrite = TRUE)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<p>Tabela przestawna z danymi w postaci DataTable (tabela o nazwie <code>pivot</code>)</p>
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucGl2b3QyIDwtIGxvYWRXb3JrYm9vayhcIi4uL3Jlc3VsdHMvNS1wcnplc3Rhd25hLnhsc3hcIilcbnBpdm90MlxuYGBgIn0= -->
-<pre class="r"><code>pivot2 &lt;- loadWorkbook(&quot;../results/5-przestawna.xlsx&quot;)
-pivot2</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-text-begin -->
-<!-- rnb-text-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyMgbGlzdGEgdGFiZWxcbmdldFRhYmxlcyh3YiA9IHBpdm90Miwgc2hlZXQgPSBcImRhbmVcIilcblxuIyMgdXN1d2FteSB0YWJlbMSZXG5yZW1vdmVUYWJsZSh3YiA9IHBpdm90Miwgc2hlZXQgPSBcImRhbmVcIiwgdGFibGUgPSBcInBpdm90XCIpXG5cbiMjIHphcGlzdWplbXkgZGFuZSBwb2QgdGFrxIUgc2FtxIUgbmF6d8SFXG5cbndyaXRlRGF0YVRhYmxlKHdiID0gcGl2b3QyLCBzaGVldCA9IFwiZGFuZVwiLCB4ID0gcmJpbmQobXRjYXJzLCBtdGNhcnMsIG10Y2FycyksIHRhYmxlTmFtZSA9IFwicGl2b3RcIilcblxuIyMgemFwaXN1amVteSBwbGlrXG5zYXZlV29ya2Jvb2sod2IgPSBwaXZvdDIsIGZpbGUgPSBcIi4uL3Jlc3VsdHMvNS1wcnplc3Rhd25hLTIueGxzeFwiKVxuYGBgIn0= -->
-<pre class="r"><code>## lista tabel
-getTables(wb = pivot2, sheet = &quot;dane&quot;)
+<!-- rnb-output-begin eyJkYXRhIjoiXG5cdFdlbGNoIFR3byBTYW1wbGUgdC10ZXN0XG5cbmRhdGE6ICByb2EgYnkgZ3J1cGFcbnQgPSAtNi42MDczLCBkZiA9IDExMS42OSwgcC12YWx1ZSA9IDYuOTIzZS0xMFxuYWx0ZXJuYXRpdmUgaHlwb3RoZXNpczogdHJ1ZSBkaWZmZXJlbmNlIGluIG1lYW5zIGlzIGxlc3MgdGhhbiAwXG45NSBwZXJjZW50IGNvbmZpZGVuY2UgaW50ZXJ2YWw6XG4gICAgICAgLUluZiAtMC4xNTM3MDAzXG5zYW1wbGUgZXN0aW1hdGVzOlxubWVhbiBpbiBncm91cCBiYW5rcnV0ICBtZWFuIGluIGdyb3VwIHpkcm93YSBcbiAgICAgICAgICAtMC4xNzQwODIzNSAgICAgICAgICAgIDAuMDMxMTMxODkgXG4ifQ== -->
+<pre><code>
+    Welch Two Sample t-test
 
-## usuwamy tabelę
-removeTable(wb = pivot2, sheet = &quot;dane&quot;, table = &quot;pivot&quot;)
-
-## zapisujemy dane pod taką samą nazwą
-
-writeDataTable(wb = pivot2, sheet = &quot;dane&quot;, x = rbind(mtcars, mtcars, mtcars), tableName = &quot;pivot&quot;)
-
-## zapisujemy plik
-saveWorkbook(wb = pivot2, file = &quot;../results/5-przestawna-2.xlsx&quot;)</code></pre>
-<!-- rnb-source-end -->
+data:  roa by grupa
+t = -6.6073, df = 111.69, p-value = 6.923e-10
+alternative hypothesis: true difference in means is less than 0
+95 percent confidence interval:
+       -Inf -0.1537003
+sample estimates:
+mean in group bankrut  mean in group zdrowa 
+          -0.17408235            0.03113189 </code></pre>
+<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiUiBOb3RlYm9vayIKb3V0cHV0OiBodG1sX25vdGVib29rCi0tLQoKYGBge3J9Cmluc3RhbGwucGFja2FnZXMoYygib3Blbnhsc3giLCAib2ZmaWNlciIsICJydmciKSkKCmxpYnJhcnkob3Blbnhsc3gpCmxpYnJhcnkob2ZmaWNlcikKI2xpYnJhcnkocnZnKQpgYGAKClBha2lldCBgb3Blbnhsc3hgIGplc3QgdG8gcGFraWV0LCBrdMOzcnkgdW1vxbxsaXdpYToKCi0gd2N6eXR5d2FuaWUgcGxpa8OzdyBNUyBFeGNlbCB6IHJvenN6ZXJ6ZW5pZW0geGxzeAotIHphcGlzeXdhbmllIHBsaWvDs3cgTVMgRXhjZWwgeiByb3pzemVyemVuaWVtIHhsc3gKCkplxbxlbGkgd3lzdMSFcGkgcG90cnplYmEgd2N6eXRhbmlhIGRhbnljaCB6ZSBzdGFyZWdvIGZvcm1hdHUgZG8gdGVnbyBzxYJ1xbx5IHBha2lldCBgcmVhZHhsYC4KUsOzd25pZcW8IGplxbxlbGkgamVzdCBwb3RyemViYSB6YXBpc3UgcGxpa3UgZG8gc3RhcmVnbyByb3pzemVyemVuaWEgdG8gbW96bmEgd3lrb3J6eXN0YcSHIHBha2lldCBgd3JpdGV4bGAKCkplxbxlbGkgY2hjZWxpYnnFm215IHphcGlzYcSHIG9iaWVrdCAobnAuIGRhdGEuZnJhbWUpIGRvIHBsaWt1IE1TIEV4Y2VsIG5hbGXFvHkgdcW8ecSHIGZ1bmtjamkgYHdyaXRlLnhsc3hgLgoKYGBge3J9CndyaXRlLnhsc3goeCA9IG10Y2FycywgZmlsZSA9ICIuLi9yZXN1bHRzLzEtcGxpay1tdGNhcnMueGxzeCIsIGFzVGFibGUgPSBUUlVFKQpgYGAKCgpaYWRhbmllbSBqZXN0IHphcGlzYW5pZSBuaWUgdHlsa28gamVkbmVqIHJhbWtpIGRhbnljaCBhbGUgY2hjaWVsaWJ5xZtteSB1dHdvcnp5xIcgd2nEmWNlaiBhcmt1c3p5IHcgc2tvcm9zenljaWUgTVMgRXhjZWwuCgpgYGB7cn0KbGlzdGFfZGFueWNoIDwtIGxpc3QoIlpiaW9yIG10Y2FycyIgPSBtdGNhcnMsCiAgICAgICAgICAgICAgICAgICAgICJJcmlzIC0gMiIgPSBpcmlzKQpzdHIobGlzdGFfZGFueWNoLDEpCgp3cml0ZS54bHN4KHggPSBsaXN0YV9kYW55Y2gsIGZpbGUgPSAiLi4vcmVzdWx0cy8yLXdpZWxlLXRhYmVsLnhsc3giLCBhc1RhYmxlID0gVFJVRSkKYGBgCgoKVyBwYWtpZWNpZSBvcGVueGxzeCBzxIUgbmFzdMSZcHVqxIVjZSBnbG9iYWxuZSBvcGNqZSAtLSBkemlhxYJhasSFIG5hIGNhxYJ5bSBza29yb3N6eWNpZSBjenlsaSBkbGEgd3N6eXN0a2ljaCBhcmt1c3p5CgogKyBvcGVueGxzeC5ib3JkZXJDb2xvdXIKICsgb3Blbnhsc3guYm9yZGVyU3R5bGUKICsgb3Blbnhsc3guZGF0ZUZvcm1hdAogKyBvcGVueGxzeC5kYXRldGltZUZvcm1hdCAKICsgb3Blbnhsc3gubnVtRm10CiArIG9wZW54bHN4LnBhcGVyU2l6ZQogKyBvcGVueGxzeC5vcmllbnRhdGlvbgogCiAKYGBge3J9Cm9wdGlvbnMoIm9wZW54bHN4Lm51bUZtdCIgPSAiMC4wMCIpCndyaXRlLnhsc3goeCA9IGxpc3RhX2RhbnljaCwgZmlsZSA9ICIuLi9yZXN1bHRzLzMtZm9ybWF0b3dhbmllLnhsc3giLCBhc1RhYmxlID0gVFJVRSkKYGBgCiAKTmFzenltIHphZGFuaWVtIGplc3QgdXR3b3J6ZW5pZSBwbGlrdSBNUyBFeGNlbCwga3TDs3J5IGLEmWR6aWUgemF3aWVyYcWCOgoKLSBhcmt1c3ogemUgc3Bpc2VtIHRyZcWbY2kKLSBhcmt1c3ogeiBkYW55bWkKLSBhcmt1c3ogeiBqYWtpbcWbIG9ibGljemVuaWFtaSBuYSBwb2RzdGF3aWUgZGFueWNoIChixJlkemllbXkgY2hjaWVsaSB1xbx5xIcgZm9ybXXFgiBleGNlbGEpCi0gYXJrdXN6IHogZGFueW1pIGFsZSB6IG5hbmllc2lvbnltIGZvcm1hdG93YW5pZW0gd2FydW5rb3d5bQoKYGBge3J9CnNrb3Jvc3p5dCA8LSBjcmVhdGVXb3JrYm9vayhjcmVhdG9yID0gIk1hY2llaiIsIHRpdGxlID0gIk5BRDIiLCBjYXRlZ29yeSA9ICJSYXBvcnQiKQpza29yb3N6eXQKYGBgCgpKYWsgZG9kYcSHIGFya3VzeiBkbyB0YWtpZWdvIG9iaWVrdHUgYHNrb3Jvc3p5dGA/IE5hbGXFvHkgdcW8ecSHIGZ1bmtjamkgYGFkZFdvcmtzaGVldGAKCmBgYHtyfQojcmVtb3ZlV29ya3NoZWV0KHdiID0gc2tvcm9zenl0LCBzaGVldCA9ICJTcGlzIHRyZcWbY2kiKSAjIyB1c3V3YSBpc3RuaWVqYWN5IGFya3VzegoKYWRkV29ya3NoZWV0KHdiID0gc2tvcm9zenl0LCBzaGVldE5hbWUgPSAiU3BpcyB0cmXFm2NpIiwgZ3JpZExpbmVzID0gRkFMU0UsIHRhYkNvbG91ciA9ICJyZWQiKQoKIyMgemFwaXN6ZW15IG9iaWVrdCBza29yb3N6eXQgZG8gcGxpa3UKCnNhdmVXb3JrYm9vayh3YiA9IHNrb3Jvc3p5dCwgZmlsZSA9ICIuLi9yZXN1bHRzLzQta3Jvay1wby1rcm9rdS54bHN4Iiwgb3ZlcndyaXRlID0gVFJVRSkKYGBgCgpTdHdvcnpteSBrb2xlam55IGFya3VzeiBvIG5hendpZSAiRGFuZSDFunLDs2TFgm93ZSIsIGt0w7NyeSBixJlkemllIHphd2llcmHFgiByYW1rxJkgZGFueWNoIG10Y2Fycy4gSmFraWUgbWFteSB3eW1vZ2kgZG90eWN6xIVjZSB0ZWdvIGFya3VzemE6CgorIGRhbmUgbWFqxIUgYnnEhyB0YWJlbMSFLCBrdMOzcmVqIGtvbG9yIHNvYmllIHNhbWkgY2hjZW15IG9rcmXFm2xpxIcKKyBjaGNlIHphYmxva293YcSHIDEgd2llcnN6IHRhYmVsaSAoc3RhxYJ5IHdpZXJzeikKCmBgYHtyfQojIyBkb2RhbmlhIGFya3VzemEKYWRkV29ya3NoZWV0KHdiID0gc2tvcm9zenl0LCBzaGVldE5hbWUgPSAiRGFuZSDFunLDs2TFgm93ZSIpCgojIyBjaGNlbXkgemFwaXNhxIcgZGFuZSBkbyBuYXN6ZWdvIGFya3VzemEgIC0tIHdyaXRlRGF0YSBhbGJvIHdyaXRlRGF0YVRhYmxlCndyaXRlRGF0YVRhYmxlKHdiID0gc2tvcm9zenl0LCBzaGVldCA9ICJEYW5lIMW6csOzZMWCb3dlIiwgeCA9IG10Y2FycywgCiAgICAgICAgICAgICAgIGNvbE5hbWVzID0gVFJVRSwgdGFibGVTdHlsZSA9ICJUYWJsZVN0eWxlTWVkaXVtMyIpCgojIyBjaGNlbXkgemFibG9rb3dhxIcgcGllcndzenkgd2llcnN6CmZyZWV6ZVBhbmUod2IgPSBza29yb3N6eXQsIHNoZWV0ID0gIkRhbmUgxbpyw7NkxYJvd2UiLCBmaXJzdFJvdyA9IFRSVUUpCgpzYXZlV29ya2Jvb2sod2IgPSBza29yb3N6eXQsIGZpbGUgPSAiLi4vcmVzdWx0cy80LWtyb2stcG8ta3Jva3UueGxzeCIsIG92ZXJ3cml0ZSA9IFRSVUUpCmBgYAoKClR3b3J6eW15IG5vd3kgYXJrdXN6LCB3IGt0w7NyeW0gZG9rb255d2FuZSBixJlkxIUgb2JsaWN6ZW5pYSB3eWtvcnp5c3R1amFjZSBmdW5rY2plIE1TIEV4Y2VsCgpgYGB7cn0KIyMgdHdvcnp5bXkgbm93eSBhcmt1c3ogbyBuYXp3aWUgIm9ibGljemVuaWEiCgphZGRXb3Jrc2hlZXQod2IgPSBza29yb3N6eXQsIHNoZWV0TmFtZSA9ICJPYmxpY3plbmlhIiwgdGFiQ29sb3VyID0gImJsYWNrIikKCiMjIHdwaXN1amVteSBkbyBva3JlxZtsb255Y2gga29tw7NyZWsgd2FydG/Fm2NpCndyaXRlRGF0YSh3YiA9IHNrb3Jvc3p5dCwgc2hlZXQgPSAiT2JsaWN6ZW5pYSIsIHh5ID0gYygiQSIsIDIpLCB4ID0gIlptaWVubmEgMToiKQp3cml0ZURhdGEod2IgPSBza29yb3N6eXQsIHNoZWV0ID0gIk9ibGljemVuaWEiLCB4eSA9IGMoIkEiLCAzKSwgeCA9ICJabWllbm5hIDI6IikKd3JpdGVEYXRhKHdiID0gc2tvcm9zenl0LCBzaGVldCA9ICJPYmxpY3plbmlhIiwgeHkgPSBjKCJCIiwgMiksIHggPSAxMCkKd3JpdGVEYXRhKHdiID0gc2tvcm9zenl0LCBzaGVldCA9ICJPYmxpY3plbmlhIiwgeHkgPSBjKCJCIiwgMyksIHggPSA1KQoKIyMgxbxlYnkgZG9kYcSHIGZvcm11xYLEmSBtdXNpbXkgc2tvcnp5c3RhYyB6IGZ1bmtjamkgd3JpdGVGb3JtdWxhCndyaXRlRGF0YSh3YiA9IHNrb3Jvc3p5dCwgc2hlZXQgPSAiT2JsaWN6ZW5pYSIsIHh5ID0gYygiQSIsIDUpLCB4ID0gIld5bmlrOiIpCgp3cml0ZUZvcm11bGEod2IgPSBza29yb3N6eXQsIHNoZWV0ID0gIk9ibGljemVuaWEiLCB4eSA9IGMoIkIiLCA1KSwgeCA9ICJST1VORChTUVJUKEIyKkIzKSwgMykiKQoKc2F2ZVdvcmtib29rKHdiID0gc2tvcm9zenl0LCBmaWxlID0gIi4uL3Jlc3VsdHMvNC1rcm9rLXBvLWtyb2t1Lnhsc3giLCBvdmVyd3JpdGUgPSBUUlVFKQoKYGBgCgoKVHdvcnp5bXkgYXJrdXN6LCB3IGt0w7NyeW0gYsSZZHppZW15IG5ha8WCYWRhbGkgZm9ybWF0b3dhbmllIHdhcnVua293ZQoKYGBge3J9CiMjIGRvZGFqZW15IGFya3VzegphZGRXb3Jrc2hlZXQod2IgPSBza29yb3N6eXQsIHNoZWV0ID0gIkZvcm1hdG93YW5pZSIpCiMjIHdwaXN1amVteSBkYW5lCndyaXRlRGF0YSh3YiA9IHNrb3Jvc3p5dCwgc2hlZXQgPSAiRm9ybWF0b3dhbmllIiwgeCA9IG10Y2FycykKCiMjIGRvZGFqZW15IGZvcm1hdG93YW5pZSB3YXJ1bmtvd2UgCmNvbmRpdGlvbmFsRm9ybWF0dGluZyh3YiA9IHNrb3Jvc3p5dCwgCiAgICAgICAgICAgICAgICAgICAgICBzaGVldCA9ICJGb3JtYXRvd2FuaWUiLAogICAgICAgICAgICAgICAgICAgICAgY29scyA9IDMsCiAgICAgICAgICAgICAgICAgICAgICByb3dzID0gMjoobnJvdyhtdGNhcnMpKzEpLAogICAgICAgICAgICAgICAgICAgICAgdHlwZSA9ICJkYXRhYmFyIikKCiMjIGNoY2VteSBhYnkga29tw7Nya2kgYnnFgnkgd3lwZcWCbmlvbmUgamFraW3FmyBrb2xvcmVtIG5hIHBvZHN0YXdpZSBva3Jlc2xvbmVnbyB3YXJ1bmt1CiMjIDEuIHRyemViYSB1dHdvcnp5xIcgZm9ybWF0Cm5hc3pfZm9ybWF0IDwtIGNyZWF0ZVN0eWxlKGJnRmlsbCA9ICIjRkZDN0NFIikgIyMgd3lwZcWCbmllbmllIGtvbcOzcmtpCgojIyAyLiBuYWRhamVteSBmb3JtYXRvd2FuaWUgd2FydW5rb3dlIApjb25kaXRpb25hbEZvcm1hdHRpbmcod2IgPSBza29yb3N6eXQsCiAgICAgICAgICAgICAgICAgICAgICBzaGVldCA9ICJGb3JtYXRvd2FuaWUiLAogICAgICAgICAgICAgICAgICAgICAgY29scyA9IDEsCiAgICAgICAgICAgICAgICAgICAgICByb3dzID0gMjoobnJvdyhtdGNhcnMpKzEpLAogICAgICAgICAgICAgICAgICAgICAgI3J1bGUgPSAiPjIwIiwKICAgICAgICAgICAgICAgICAgICAgIHJ1bGUgPSBwYXN0ZSgiPiIsIG1lZGlhbihtdGNhcnMkbXBnKSksCiAgICAgICAgICAgICAgICAgICAgICBzdHlsZSA9IG5hc3pfZm9ybWF0KQoKc2F2ZVdvcmtib29rKHdiID0gc2tvcm9zenl0LCBmaWxlID0gIi4uL3Jlc3VsdHMvNC1rcm9rLXBvLWtyb2t1Lnhsc3giLCBvdmVyd3JpdGUgPSBUUlVFKQpgYGAKCgpab3N0YcWCIG5hbSBzcGlzIHRyZcWbY2kgZG8gdXp1cGXFgm5pZW5pYSB3cmF6IHogdHl0dcWCZW0gIlNwaXMgdHJlxZtjaSIgCgoxLiBuYXBpc2HEhyB3IEI1IHRla3N0ICJTcGlzIHRyZcWbY2kiIAoyLiB0ZWtzdCBiecWCIHNmb3JtYXRvd2FueQozLiBzdHdvcnp5bXkgc3BpcyB0cmXFm2NpCgpgYGB7cn0KbmFtZXMoc2tvcm9zenl0KSAjIyBuYXp3eSBhcmt1c3p5CmBgYAoKYGBge3J9CndyaXRlRGF0YSh3YiA9IHNrb3Jvc3p5dCwgc2hlZXQgPSAiU3BpcyB0cmXFm2NpIiwgeCA9ICJTcGlzIFRyZcWbY2kiLCB4eSA9IGMoIkIiLCA1KSkKCiMjIHR3b3J6eW15IHN0eWwgdyBqYWtpbSBixJlkemllIHphcGlzYW55IHRla3N0IHNwaXMgdHJlxZtjaQpzcGlzX2Zvcm1hdCA8LSBjcmVhdGVTdHlsZShmb250TmFtZSA9ICJCcmFnZ2Fkb2NpbyIsIGZvbnRTaXplID0gMjAsIHRleHRSb3RhdGlvbiA9IDE1KQoKIyMgZG9kYWplbXkgdGVuIGZvcm1hdCBkbyBkYW5laiBrb23Ds3JraQphZGRTdHlsZSh3YiA9IHNrb3Jvc3p5dCwgc2hlZXQgPSAiU3BpcyB0cmXFm2NpIiwgc3R5bGUgPSBzcGlzX2Zvcm1hdCwgcm93cyA9IDUsIGNvbHMgPSAyKQoKc2F2ZVdvcmtib29rKHdiID0gc2tvcm9zenl0LCBmaWxlID0gIi4uL3Jlc3VsdHMvNC1rcm9rLXBvLWtyb2t1Lnhsc3giLCBvdmVyd3JpdGUgPSBUUlVFKQpgYGAKCkRvZGFqZW15IGRvIGFya3VzemEgc3BpcyB0cmXFm2NpIG9kd2/FgmFuaWEgZG8ga29ua3JldG55Y2ggYXJrdXN6eQoKYGBge3J9CndyaXRlRm9ybXVsYSh3YiA9IHNrb3Jvc3p5dCwgc2hlZXQgPSAiU3BpcyB0cmXFm2NpIiwgeHkgPSBjKCJCIiwgNyksIAogICAgICAgICAgICAgeCA9IG1ha2VIeXBlcmxpbmtTdHJpbmcoc2hlZXQgPSAiRGFuZSDFunLDs2TFgm93ZSIsIHJvdyA9IDUsIGNvbCA9IDMsCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB0ZXh0ID0gIlJvemR6aWHFgiAxOiBkYW5lIMW6csOzZMWCb3dlIikpCgp3cml0ZUZvcm11bGEod2IgPSBza29yb3N6eXQsIHNoZWV0ID0gIlNwaXMgdHJlxZtjaSIsIHh5ID0gYygiQiIsIDgpLCAKICAgICAgICAgICAgIHggPSBtYWtlSHlwZXJsaW5rU3RyaW5nKHNoZWV0ID0gIk9ibGljemVuaWEiLCAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHRleHQgPSAiUm96ZHppYcWCIDI6IG9ibGljemVuaWEiKSkKCndyaXRlRm9ybXVsYSh3YiA9IHNrb3Jvc3p5dCwgc2hlZXQgPSAiU3BpcyB0cmXFm2NpIiwgeHkgPSBjKCJCIiwgOSksIAogICAgICAgICAgICAgeCA9IG1ha2VIeXBlcmxpbmtTdHJpbmcoc2hlZXQgPSAiRm9ybWF0b3dhbmllIiwgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB0ZXh0ID0gIlJvemR6aWHFgiAzOiBmb3JtYXRvd2FuaWUiKSkKCgpzYXZlV29ya2Jvb2sod2IgPSBza29yb3N6eXQsIGZpbGUgPSAiLi4vcmVzdWx0cy80LWtyb2stcG8ta3Jva3UueGxzeCIsIG92ZXJ3cml0ZSA9IFRSVUUpCgpgYGAKClN1bSBvZiB4CUF2ZXJhZ2Ugb2YgeDIKNTUJNSw1CgpOYXN6eW0gemFkYW5pZW0gamVzdDoKCjEuIHdjenl0YcSHIGlzdG5pZWphY3kgcGxpawoyLiBwb2RtaWVuacSHIGRhbmUgdyB0YWJlbGkKMy4gemFwaXN6ZW15IHRhYmVsxJkKCmBgYHtyfQpwaXZvdCA8LSBsb2FkV29ya2Jvb2soZmlsZSA9ICIuLi9yZXN1bHRzL3RhYmVsYS1wcnplc3Rhd25hLnhsc3giKQpwaXZvdApgYGAKCmBgYHtyfQojIyBwb2RtaWVuaWFteSB3YXJ0b8WbxIcgdyBrb23Ds3JjZSBBNwp3cml0ZURhdGEod2IgPSBwaXZvdCwgc2hlZXQgPSAiZGFuZSIsIHh5ID0gYygiQSIsIDcpLCB4ID0gMTUpCiMjIHphcGlzdWplbXkgcGxpawpzYXZlV29ya2Jvb2sod2IgPSBwaXZvdCwgZmlsZSA9ICIuLi9yZXN1bHRzL3RhYmVsYS1wcnplc3Rhd25hLTIueGxzeCIsIG92ZXJ3cml0ZSA9IFRSVUUpCmBgYAoKVGFiZWxhIHByemVzdGF3bmEgeiBkYW55bWkgdyBwb3N0YWNpIERhdGFUYWJsZSAodGFiZWxhIG8gbmF6d2llIGBwaXZvdGApCgpgYGB7cn0KcGl2b3QyIDwtIGxvYWRXb3JrYm9vaygiLi4vcmVzdWx0cy81LXByemVzdGF3bmEueGxzeCIpCnBpdm90MgpgYGAKCgpgYGB7cn0KIyMgbGlzdGEgdGFiZWwKZ2V0VGFibGVzKHdiID0gcGl2b3QyLCBzaGVldCA9ICJkYW5lIikKCiMjIHVzdXdhbXkgdGFiZWzEmQpyZW1vdmVUYWJsZSh3YiA9IHBpdm90Miwgc2hlZXQgPSAiZGFuZSIsIHRhYmxlID0gInBpdm90IikKCiMjIHphcGlzdWplbXkgZGFuZSBwb2QgdGFrxIUgc2FtxIUgbmF6d8SFCgp3cml0ZURhdGFUYWJsZSh3YiA9IHBpdm90Miwgc2hlZXQgPSAiZGFuZSIsIHggPSByYmluZChtdGNhcnMsIG10Y2FycywgbXRjYXJzKSwgdGFibGVOYW1lID0gInBpdm90IikKCiMjIHphcGlzdWplbXkgcGxpawpzYXZlV29ya2Jvb2sod2IgPSBwaXZvdDIsIGZpbGUgPSAiLi4vcmVzdWx0cy81LXByemVzdGF3bmEtMi54bHN4IikKYGBgCgo=</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiUiBOb3RlYm9vayIKb3V0cHV0OiBodG1sX25vdGVib29rCi0tLQoKYGBge3J9CmxpYnJhcnkocmVhZHhsKQpsaWJyYXJ5KHRpZHl2ZXJzZSkKYGBgCgpgYGB7cn0Kc3BvbGtpIDwtIHJlYWRfZXhjZWwocGF0aCA9ICIuLi9kYXRhLXJhdy9zcG9sa2lfYWtjeWpuZV9iYW5rcnV0Lnhsc3giLAogICAgICAgICAgICAgICAgICAgICBjb2xfbmFtZXMgPSBjKCJpZCIsICJyb2EiLCAienlza19iaWxhbnMiLCAid3NrX2JpZV9wbHkiLCAiem9iX2FrdCIsICJyb3RhY2phIiwgImdydXBhIiksIAogICAgICAgICAgICAgICAgICAgICBza2lwID0gMSkKc3BvbGtpCmBgYAoKQWJ5IHd5a29uYcSHIHRlc3QgamVkbmVqIGx1YiBkd8OzY2ggxZtyZWRuaWNoIG5hbGXFvHkgemFzdG9zb3dhxIcgZnVua2NqxJkgYHQudGVzdCgpYAoKYGBge3J9CnQudGVzdCh4ID0gc3BvbGtpJHJvYSwgbXUgPSAwKQpgYGAKCk9waXMgd3lkcnVrdQoKICArIGBPbmUgU2FtcGxlIHQtdGVzdGAgLS0gaW5mb3JtYWNqYSwgxbxlIHd5a29uYW5vIHRlc3QgamVkbmVqIMWbcmVkbmllagogICsgYGRhdGE6ICBzcG9sa2kkcm9hYCAtLSBqYWtpIHdla3RvciBiecWCIHRlc3Rvd2FueQogICsgYHQgPSAtNC4xMzYxLCBkZiA9IDE3OSwgcC12YWx1ZSA9IDUuNDI2ZS0wNWAgLS0gc3RhdHlzdHlrYSB0ZXN0b3dhICh0KQogICsgYGFsdGVybmF0aXZlIGh5cG90aGVzaXM6IHRydWUgbWVhbiBpcyBub3QgZXF1YWwgdG8gMGAgLS0gamFrYSBqZXN0IGhpcG90ZXphIGFsdGVybmF0eXduYQogICsgYDk1IHBlcmNlbnQgY29uZmlkZW5jZSBpbnRlcnZhbDogIC0wLjEwNTU3NTU5IC0wLjAzNzM3NDg3YCAgLS0gOTUlIHByYXdkb3BvZG9iaWXFhHN0d2VtIMWbcmVkbmlhIHcgcG9wdWxhY2ppIGplc3QgdyB0eW0gcHJ6ZWR6aWFsZSAKICArIGBzYW1wbGUgZXN0aW1hdGVzOiBtZWFuIG9mIHggPSAtMC4wNzE0NzUyMyBgIC0tIMWbcmVkbmlhIHogcHLDs2J5CiAgCmBgYHtyfQp0LnRlc3QoeCA9IHNwb2xraSRyb2EsIG11ID0gMCwgYWx0ZXJuYXRpdmUgPSAibGVzcyIpIApgYGAKClBvcsOzd25hbmllIGR3w7NjaCDFm3JlZG5pY2gKCmBgYHtyfQp0LnRlc3QoZm9ybXVsYSA9IHJvYSB+IGdydXBhLCBkYXRhID0gc3BvbGtpKQpgYGAKCisgYFdlbGNoIFR3byBTYW1wbGUgdC10ZXN0YCAtLSB0ZXN0IHBvcsOzd25hbmlhIGR3w7NjaCBncnVwLCBhIGRva8WCYWRuaWUgcG9yw7N3bmFuaWEgZHfDs2NoIMWbcmVkbmljaCBwcnp5IHphxYJvxbxlbml1LCDFvGUgd2FyaWFuY2plIHPEhSByw7PFvG5lIChgdmFyLmVxdWFsID0gRkFMU0VgKSBvcmF6IGdydXB5IHphd2llcmFqxIUgcsOzxbxuZSBzcMOzxYJraSAoYHBhaXJlZCA9IEZBTFNFYCkKKyBgZGF0YTogIHJvYSBieSBncnVwYWAgLS0gYW5hbGl6dWplbXkgcm9hIHdnIHptaWVubmVqIGdydXBhCisgYHQgPSAtNi42MDczLCBkZiA9IDExMS42OSwgcC12YWx1ZSA9IDEuMzg1ZS0wOWAgLS0gd2FydG/Fm8SHIHN0YXR5c3R5a2kgdGVzdG93ZWoKKyBgYWx0ZXJuYXRpdmUgaHlwb3RoZXNpczogdHJ1ZSBkaWZmZXJlbmNlIGluIG1lYW5zIGlzIG5vdCBlcXVhbCB0byAwYCAtLSAKKyBgOTUgcGVyY2VudCBjb25maWRlbmNlIGludGVydmFsOiAgLTAuMjY2NzU0NSAtMC4xNDM2NzQwYCAtLSBwcnplZHppYcWCIHVmbm/Fm2NpIGRsYSByw7PFvG5pY3kgKGJhbmtydWNpIC0gemRyb3d5Y2gpIAorIGBzYW1wbGUgZXN0aW1hdGVzOmAgxZtyZWRuaWUgeiBwcsOzYnkgCgpgYGB7cn0KdC50ZXN0KGZvcm11bGEgPSByb2EgfiBncnVwYSwgZGF0YSA9IHNwb2xraSwgYWx0ZXJuYXRpdmUgPSAibGVzcyIpCmBgYAoKCgoK</div>
 
 
 
@@ -2111,7 +1983,7 @@ $(document).ready(function () {
 <!-- code folding -->
 <script>
 $(document).ready(function () {
-  window.initializeSourceEmbed("wyklad-06.Rmd");
+  window.initializeSourceEmbed("wyklad-08.Rmd");
   window.initializeCodeFolding("show" === "show");
 });
 </script>
