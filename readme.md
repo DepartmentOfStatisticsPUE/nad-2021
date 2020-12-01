@@ -6,4 +6,5 @@
 4. Wykład 4 i 5 -- case study, dplyr i ggplot2 itp [kody](notebooks/wyklad-04.Rmd)
 6. Wykład 6 -- openxlsx i raportowanie do MS Excel [kody](notebooks/wyklad-06.Rmd)
 7. Wykład 7 -- officer i raportowanie do MS PowerPoint [kody](notebooks/wyklad-07.Rmd)
-7. Wykład 7 -- wprowadzenie do testowania hipotez (`t.test`)  [kody](notebooks/wyklad-08.Rmd)
+8. Wykład 8 -- wprowadzenie do testowania hipotez (`t.test`)  [kody](notebooks/wyklad-08.Rmd)
+9. Wykład 9 -- wprowadzenie do modelu regresji (`lm`)  [kody](notebooks/wyklad-09.Rmd)
