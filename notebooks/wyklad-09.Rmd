@@ -1,0 +1,99 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+
+```{r}
+library(readxl)
+library(tidyverse)
+```
+
+
+```{r}
+gosp <- read_excel("../data-raw/gospodarstwa.xlsx")
+gosp$l_osob <- round(gosp$los)
+gosp
+```
+
+Budujemy model, w którym chcemy wyjaśnić poziom wydatków liczbą osób w gospodarstwie domowym
+
+```{r}
+boxplot(formula = wydg ~ l_osob, data = gosp)
+```
+
+
+wydatki ~ liczba osób
+
+Aby oszacować model regresji linowej w R należy zastosowac funkcję lm (linear model)
+
+zmienna objaśniana ~ zmienna objaśniająca 1 + zmienna objaśniająca 2 + zmienna objaśniająca 3 + ...
+
+
+```{r}
+model1 <- lm(formula = wydg ~ los, data = gosp)
+model1
+summary(model1)
+```
+
++ `Residuals` -- to są reszy czyli `y - \hat{y}`, `\hat{y}` to są wartości z modelu.
++ `Coefficients` -- oszacowania parametrów (bet) z modelu wraz z błędami standardowymi 
++ `Estimate` to oszacowania bet z modelu
++ `Std. Error` to błąd standardowy bet z modelu
++ `t value` -- statystyka t-studenta `Estimate` / `Std. Error` 
+
+Badamy następujący układ hipotez
+
+$$
+H_0: \beta_k = 0, \quad H_1: \beta_k \neq 0
+$$
++ `Pr(>|t|)` -- wartość p (p-value)
++ `Residual standard error` -- oszacowanie błędu standardowego składnika losowego
+
+Względny błąd szacunku = oszacowanie błędu standardowego składnika losowego (`sigma`) do przeciętnej wartości naszego y (`wydg`) (wartość jest w %)
+
+```{r}
+sigma(model1) / mean(gosp$wydg, na.rm=T)
+```
+
++ `F-statistic`, która służy do testowania układu hipotez w postaci
+
+$$
+H_0: \mathbf{\beta} = \mathbf{0}, \quad H_1: \mathbf{\beta} \neq \mathbf{0}
+$$
+
+Dodajemy do modelu zmienną jakościową czyli mierzoną na skali porządkowej lub nominalnej
+
+
+```{r}
+gosp$miejsce <- factor(x = gosp$klm, 
+                       levels = 1:6,
+                       labels = c("pow 500T", "200T-500T", "100T-200T", "20T-100T", "pon. 20T", "wies"))
+```
+
+Funkcja update pozwala na aktualizację konkretnego modelu
+
+```{r}
+## model2 <- lm(formula = wydg ~ los + miejsce, data = gosp)
+
+model2 <- update(object = model1,  formula = . ~ . + miejsce)
+summary(model2)
+```
+
+Dołączymy do modelu zmienną trb -- typ rodziny biologicznej
+
+```{r}
+model3 <- update(object = model2, formula = . ~ . + factor(trb))
+summary(model3)
+```
+
+Dodajmy do modelu zmienną dochód
+
+```{r}
+model4 <- update(object = model3, formula = . ~ . + dochg)
+summary(model4)
+```
+
+
+
+

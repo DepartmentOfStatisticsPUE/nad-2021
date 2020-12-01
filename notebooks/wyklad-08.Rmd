@@ -51,6 +51,23 @@ t.test(formula = roa ~ grupa, data = spolki)
 t.test(formula = roa ~ grupa, data = spolki, alternative = "less")
 ```
 
+Test nieparametryczny -- Mann-Whitney-Wilcoxon
+
+```{r}
+wilcox.test(formula = roa ~ grupa, data = spolki)
+```
+
+Test 2 średnich dla zmiennej rotacja
+```{r}
+t.test(formula = rotacja ~ grupa, data = spolki)
+```
+
+Test Manna-Whitneya-Wilcoxona dla zmiennej rotacja
+
+```{r}
+wilcox.test(formula = rotacja ~ grupa, data = spolki)
+```
+
 
 
 
