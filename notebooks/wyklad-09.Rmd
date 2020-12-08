@@ -5,8 +5,12 @@ output: html_notebook
 
 
 ```{r}
+# install.packages("sjPlot")
+#install.packages("relaimpo") ## relative importance
 library(readxl)
 library(tidyverse)
+library(sjPlot)
+library(relaimpo)
 ```
 
 
@@ -35,6 +39,10 @@ model1 <- lm(formula = wydg ~ los, data = gosp)
 model1
 summary(model1)
 ```
+
+$$
+wydg = 1395.618 + 201.270 \times los
+$$
 
 + `Residuals` -- to są reszy czyli `y - \hat{y}`, `\hat{y}` to są wartości z modelu.
 + `Coefficients` -- oszacowania parametrów (bet) z modelu wraz z błędami standardowymi 
@@ -94,6 +102,122 @@ model4 <- update(object = model3, formula = . ~ . + dochg)
 summary(model4)
 ```
 
+Wykorzystamy pakiet sjPlot do prezentacji modelu regresji
 
+```{r}
+tab_model(model1, model2, model4,
+          dv.labels = c("Model 1", "Model 2" , "Model 4"),
+          digits = 3,
+          show.ci = FALSE,
+          show.se = TRUE, 
+          collapse.se = FALSE,
+          show.p = FALSE,
+          show.reflvl = FALSE,
+          string.est = "Parametry",
+          string.se = "Błąd",
+          string.pred = "Zmiene",
+          string.intercept = "(Wyraz wolny)")
+```
+
+
+Które zmienne są ważne i w jakim stopniu?
+
+1. Ważne czyli jaki procent zmienności $Y$ wyjaśnia zmienna? Jaką część $R^2$ wyjaśnia dana zmienna?
+
+2. Jak to można zrobić?
+
+
+Są trzy podstawowe metody oparte na dekompozycji $R^2$
+
+1. `first` -- polega na tym, że zaczynamy z modelem pustym (zawierającym wyłącznie wyraz wolny) i po jednej zmiennej:
+
++ y ~ x1 -> R^2 ? 
++ y ~ x2 -> R^2 ?
++ y ~ x3 -> R^2 ? 
+
+- kiedy możemy ją stosować? Wtedy gdy zmienne x1,x2,x3 są niezależne (korelacja jest bliska 0)
+
+2. `last` -- polega na tym, że zaczynamy z pełnym modelem (ze wszystki zmiennymi) i po jednej wyłączamy:
+
++ y ~ x1 + x2 + x3 -> R^2?
++ y ~ x1 + x2 -> R^2?
++ y ~ x1 + x3 -> R^2?
++ y ~ x2 + x3 -> R^2?
+
+
+3. `kombinatoryjne` -- polega na tym, że budujemy wiele różnych modeli z wieloma kombinacjami zmiennych i wtedy wyznaczamy ważność konkretnej zmiennej
+ 
++ y ~ x1
++ y ~ x2
++ y ~ x3
++ y ~ x1 + x2
++ y ~ x1 + x3
++ y ~ x2 + x3
++ y ~ x1 + x2 + x3
+
+Możliwych kombinacji jest $2^k - 1$, gdzie $k$ to liczba zmiennych
+
+
+Jeżeli chcemy zastosować daną metodę z wykorzystaniem pakietu `relaimpo` to należy skorzystać z funkcji `calc.relimp`
+
+```{r}
+calc.relimp(object = model4, type = c("first", "last", "lmg"))
+```
+
+Czy faktyczne powinniśmy stosować model liniowy dla naszych danych?
+
+```{r}
+plot(gosp$dochg, gosp$wydg)
+```
+
+```{r}
+gosp2 <- gosp %>% filter(dochg >0)
+m1 <- lm(wydg ~ dochg, gosp2)
+plot(gosp2$dochg, gosp2$wydg)
+abline(coef(m1), col = "red")
+```
+
+```{r}
+m2 <- lm(log(wydg) ~ log(dochg), gosp2)
+plot(log(gosp2$dochg), log(gosp2$wydg))
+abline(coef(m2), col = "red")
+```
+
+$$
+\log(y) = \beta_0 + \beta_1\log(x_1)
+$$
+
+
+$$
+\log(y) = \log(b_0) + \log(x_1)^{\beta_1}
+$$
+
+$$
+\log(y) = \log(b_0 \times x_1^{\beta_1})
+$$
+
+$$
+y = b_0 x_1^{\beta_1}
+$$
+
+$$
+y = e^{\beta_0 + \beta_1x_1}
+$$
+
+$$
+log(y) = \beta_0 + \beta_1x_1
+$$
+
+```{r}
+plot(gosp2$los, log(gosp2$wydg))
+```
+
+
+```{r}
+model_log_log <- lm(formula = log(wydg) ~ log(dochg), data = gosp2)
+summary(model_log_log)
+```
+
+Jeżeli dochód wzrośnie o 1% to wydatki wzrosną o 0.74%
 
 
