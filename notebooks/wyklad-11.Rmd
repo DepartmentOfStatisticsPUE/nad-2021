@@ -1,0 +1,32 @@
+---
+title: "Web scraping"
+output: html_notebook
+---
+
+
+Robimy web-scraping ofert najmu z otodom dla dzielnicy Poznań, Grunwald
+
+```{r}
+library(rvest)
+```
+
+
+```{r}
+otodom_link <- "https://www.otodom.pl/wynajem/mieszkanie/poznan/grunwald/?search%5Bregion_id%5D=15&search%5Bsubregion_id%5D=462&search%5Bcity_id%5D=1&search%5Bdistrict_id%5D=79"
+```
+
+
+```{r}
+otodom_strona <- read_html(otodom_link)
+otodom_strona
+```
+
+Pobieramy informację o cenie nieruchomości
+
+```{r}
+otodom_strona %>%
+  html_nodes("li.offer-item-price") %>%
+  html_text()
+```
+
+

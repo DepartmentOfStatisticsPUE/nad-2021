@@ -1,0 +1,92 @@
+---
+title: "Piszemy własne funkcje"
+output: html_notebook
+---
+
+```{r}
+library(quantmod)
+```
+
+1. Napisanie funkcji, która będzie tworzyła tabliczke mnożenia o okreslonych wymiarach, które będą ograniczone od dołu do 5 a od góry do 100 -- przedział [5, 100]
+
+- najpierw ależy napisać kod, który działa
+- później napisać funkcję na podstawie tego kodu
+- na samym końcu można się zastanawiać jak kod przyspieszyć (jeżeli będzie taka potrzeba)
+
+```{r}
+utworz_tabliczke <- function(wymiar = 10) {
+  
+  if (!wymiar %in% 5:100) {
+    stop("Argument wymiar nie jest z przedzialu [5, 100]")
+  }
+  
+  tablicza <- matrix(data = 0, nrow = wymiar,  ncol = wymiar)
+  
+  for (i in 1:wymiar) {
+    for (j in 1:wymiar) {
+      tablicza[i, j] <- i*j
+    }
+  }
+  
+  return(tablicza)
+}
+```
+
+```{r}
+utworz_tabliczke(2)  ## błąd bo wymiar jest spoza przedziału [5, 100]
+utworz_tabliczke() ## zadziała bo funkcja ma domyślny argument wymiar=100
+utworz_tabliczke(5) ## zadziała bo podajemy argument (pozycyjnie)
+utworz_tabliczke(wymiar = 5) ## zadziała bo podajemy argument (odwołanie)
+utworz_tabliczke(w = 5) ## partial matching
+```
+
+f(a,b)  -- funkcja przyjmuje dwa argumenty
+f(1, 2) -- podajemy argumenty w sposób pozycyjny
+f(a=1,b=2) -- podajemy wartości przez wskazanie konkretnych argumentów
+f(b=2,a=1) -- kolejność nie ma znaczenia
+f(b=2,1) -- można podać raz tak, raz tak 
+
+
+2. Druga funkcja, która będzie przeliczała złotówki na EUR, USD, HUF według aktualnego kursu
+
+Skorzystamy z funkcji `getFX` 
+
+```{r}
+pobierz_przeliczenie <- function(kursy = c("PLN/USD", "PLN/EUR", "PLN/HUF"),
+                                 data_start = Sys.Date() - 10,
+                                 data_koniec = Sys.Date(),
+                                 kwota = 135000,
+                                 excel_zapis = TRUE,
+                                 excel_sciezka = "przeliczenia.xlsx") {
+  ## ładujemy pakiet, ktory jest wymagany do dzialania funkcji
+  require(openxlsx)
+  require(quantmod)
+  
+  wyniki_przeliczenia <- list()
+  
+  for (kurs in kursy) {
+    wynik <- getFX(Currencies = kurs, 
+                   from = data_start, to = data_koniec, 
+                   auto.assign = FALSE,
+                   src = "google")
+    wynik <- as.data.frame(wynik)
+    wynik$data <- as.Date(rownames(wynik))
+    rownames(wynik) <- NULL
+    wynik$wycena <- wynik[,1]*kwota
+    wyniki_przeliczenia[[kurs]] <- wynik
+  }
+  
+  if (excel_zapis) {
+    write.xlsx(x = wyniki_przeliczenia, file = excel_sciezka, asTable = TRUE)
+  }
+  
+  return(wyniki_przeliczenia)
+  
+}
+```
+
+```{r}
+pobierz_przeliczenie(kursy = "PLN/USD", data_start = Sys.Date() - 2, kwota = 5000,
+                     excel_sciezka = "../results/przeliczenia.xlsx")
+```
+
