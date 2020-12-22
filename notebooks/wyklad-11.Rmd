@@ -8,11 +8,12 @@ Robimy web-scraping ofert najmu z otodom dla dzielnicy Poznań, Grunwald
 
 ```{r}
 library(rvest)
+library(stringr)
 ```
 
 
 ```{r}
-otodom_link <- "https://www.otodom.pl/wynajem/mieszkanie/poznan/grunwald/?search%5Bregion_id%5D=15&search%5Bsubregion_id%5D=462&search%5Bcity_id%5D=1&search%5Bdistrict_id%5D=79"
+otodom_link <- "https://www.otodom.pl/wynajem/mieszkanie/poznan/grunwald/?search%5Bregion_id%5D=15&search%5Bsubregion_id%5D=462&search%5Bcity_id%5D=1&search%5Bdistrict_id%5D=79&nrAdsPerPage=72"
 ```
 
 
@@ -24,9 +25,156 @@ otodom_strona
 Pobieramy informację o cenie nieruchomości
 
 ```{r}
-otodom_strona %>%
+ceny_wynajem <- otodom_strona %>%
   html_nodes("li.offer-item-price") %>%
-  html_text()
+  html_text() %>%
+  str_replace_all(" ", "") %>%
+  str_replace_all("\n", "") %>%
+  str_replace_all("zł/mc","") %>%
+  as.numeric()
+
+
+pow_wynajem <- otodom_strona %>%
+  html_nodes("li.hidden-xs.offer-item-area") %>%
+  html_text() %>%
+  str_replace_all(" ", "") %>%
+  str_replace_all("m²", "") %>%
+  str_replace_all(",", ".") %>%
+  as.numeric()
+
+cor(ceny_wynajem, pow_wynajem)
+plot(ceny_wynajem, pow_wynajem)
 ```
 
+
+Wyrażenia regularne 
+
+```{r}
+przyklad <- "mój numer telefonu to 662 723 242. Zadzwon ble ble."
+przyklad
+
+str_extract(przyklad, "\\d") ## wyciagnij jedna cyfrę
+str_extract(przyklad, "\\d{3}") ## wyciągnij dokladnie 3 cyfry
+str_extract_all(przyklad, "\\d{3}") ## wyciągnij wszystkie wzorce, które mają dokladnie 3 cyfry
+str_extract(przyklad, "\\d{3} \\d{3} \\d{3}")  ## wyciągnij wzorzec składający się z ciągu 3 cyfry spacja 3 cyfry spacja 3 cyfry 
+```
+
+
+```{r}
+przyklad2 <- "mój numer telefonu to 662-723 242. Zadzwon ble ble. A mój numer jest 662 723-242"
+
+str_extract_all(przyklad2, "\\d{3}.\\d{3}.\\d{3}") ## kropka w regex oznacza jeden dowolny znak!!!
+```
+
+
+```{r}
+przyklad_pow  <- c("161,20m²",  "39,29m²", "28m²")
+przyklad_pow
+str_extract(przyklad_pow, "\\d{2,3}(,\\d{1,2})?")
+```
+
+```{r}
+pow_wynajem <- otodom_strona %>%
+  html_nodes("li.hidden-xs.offer-item-area") %>%
+  html_text() %>%
+  str_replace_all(" ", "") %>%
+  ## wyciąga powierzchnię z tekstu
+  str_extract("\\d{2,3}(,\\d{1,2})?") %>% 
+  str_replace_all(",", ".") %>%
+  as.numeric()
+
+cor(pow_wynajem, ceny_wynajem)
+plot(pow_wynajem, ceny_wynajem)
+```
+
+Pobieramy informacje o liczbie pokoi oraz kto wystawia
+
+```{r}
+pok_wynajem <- otodom_strona %>%
+    html_nodes("li.offer-item-rooms.hidden-xs") %>%
+    html_text() %>%
+    str_replace_all(" ", "") %>%
+    str_extract("\\d") %>% 
+    as.numeric()
+
+kto_wynajem <- otodom_strona %>%
+    html_nodes("li.pull-right") %>%
+    html_text() %>%
+    str_replace_all(" ", "") %>%
+    str_detect("Ofertaprywatna")
+
+```
+
+Napiszmy funkcje do pobierania danych
+
+```{r}
+
+otodom_pobierz <- function(otodom_link) {
+  
+  otodom_strona <- read_html(otodom_link)
+  
+  pow_wynajem <- otodom_strona %>%
+    html_nodes("li.hidden-xs.offer-item-area") %>%
+    html_text() %>%
+    str_replace_all(" ", "") %>%
+    str_extract("\\d{2,3}(,\\d{1,2})?") %>% 
+    str_replace_all(",", ".") %>%
+    as.numeric()
+  
+  ceny_wynajem <- otodom_strona %>%
+    html_nodes("li.offer-item-price") %>%
+    html_text() %>%
+    str_replace_all(" ", "") %>%
+    str_replace_all("\n", "") %>%
+    str_replace_all("zł/mc","") %>%
+    as.numeric()
+  
+  pok_wynajem <- otodom_strona %>%
+    html_nodes("li.offer-item-rooms.hidden-xs") %>%
+    html_text() %>%
+    str_replace_all(" ", "") %>%
+    str_extract("\\d") %>% 
+    as.numeric()
+
+  pryw_wynajem <- otodom_strona %>%
+    html_nodes("li.pull-right") %>%
+    html_text() %>%
+    str_replace_all(" ", "") %>%
+    str_detect("Ofertaprywatna")
+
+  df <- data.frame(pow_wynajem, ceny_wynajem, pok_wynajem, pryw_wynajem)
+  
+  df
+}
+
+
+```
+
+```{r}
+
+## lista do zapisu danych
+otodom_wynik <- list()
+
+for (i in 1:5) {
+  Sys.sleep(3) ## funkcja Sys.sleep sluzy do pauzy (przez 3 sekundy nic nie robi)
+  print(i) ## wyrzuca informacje o tym, w którym miejscu jest pętla
+  link_do_pobrania <- paste0("https://www.otodom.pl/wynajem/mieszkanie/poznan/grunwald/?search%5Bregion_id%5D=15&search%5Bsubregion_id%5D=462&search%5Bcity_id%5D=1&search%5Bdistrict_id%5D=79&nrAdsPerPage=72&page=", i)
+  otodom_wynik[[i]] <- otodom_pobierz(otodom_link = link_do_pobrania)
+}
+
+otodom_wynik_df <- dplyr::bind_rows(otodom_wynik)
+
+plot(otodom_wynik_df$pow_wynajem, otodom_wynik_df$ceny_wynajem, col = ifelse(otodom_wynik_df$pryw_wynajem, "red", "blue"))
+cor(otodom_wynik_df$pow_wynajem, otodom_wynik_df$ceny_wynajem, m = "s")
+```
+
+```{r}
+aggregate(ceny_wynajem ~ kto_wynajem, data = otodom_wynik_df, FUN = mean)
+```
+
+```{r}
+model <- lm(ceny_wynajem ~ pow_wynajem + factor(pok_wynajem) + kto_wynajem, 
+            data = otodom_wynik_df)
+summary(model)
+```
 
