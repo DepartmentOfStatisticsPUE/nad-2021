@@ -10,3 +10,4 @@
 9. Wykład 9 -- wprowadzenie do modelu regresji (`lm`)  [kody](notebooks/wyklad-09.Rmd)
 10. Wykład 10 -- pisanie własnych funkcji  [kody](notebooks/wyklad-10.Rmd)
 11. Wykład 11 -- wprowadzenie do web-scraping [kody](notebooks/wyklad-11.Rmd)
+11. Wykład 12 -- ekonometria: funkcje nieliniowe [kody](notebooks/wyklad-12.Rmd)
