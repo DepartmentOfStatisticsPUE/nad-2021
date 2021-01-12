@@ -1,0 +1,253 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+# Pakiety
+
+```{r}
+library(readxl)
+```
+
+# Modele nieliniowe
+
+## Funkcja Cobba-Douglas'a
+
+Funkcja zakłada zależność między Produkcją (P), a nakładami Kapitału (K) oraz nakładami Pracy (L).
+
+$$
+P = \gamma K^\alpha L^\beta\epsilon
+$$
+
+1. standardowe podejście do tego problemu polega na zlinearyzowaniu czyli doprowadzeniu danego równania do postaci liniowej.
+
+$$
+\log(P) = \log(\gamma K^\alpha L^\beta)
+$$
+
+
+$$
+\log(P) = \log(\gamma) + \log(K^\alpha) + \log(L^\beta)
+$$
+
+$$
+\log(P) = \log(\gamma) + \alpha\log(K) + \beta\log(L)
+$$
+
+```{r}
+excel_sheets("../data-raw/regresja-ekonometria.xlsx")
+```
+
+```{r}
+dane_cd <- read_excel("../data-raw/regresja-ekonometria.xlsx", sheet = "nielin-cd")
+dane_cd
+```
+
+```{r}
+plot(dane_cd[,-1])
+```
+
+
+Szacujemy parametry modelu zlinearyzowanego wykorzystując funkcję `lm`.
+
+```{r}
+model1 <- lm(formula = log(P) ~ log(K) + log(L), data = dane_cd)
+summary(model1)
+```
+
+$$
+\log(P) = 2.59256 + 0.45207*\log(K) + 0.50802*\log(L)
+$$
+
+```{r}
+exp(2.59256)
+```
+
+$$
+P = 13.36394 * K^{0.45207} * L^{0.50802}
+$$
+
+
+2. zastosowanie odpowiednich narzędzi (aparatu matematycznego) do rozwiązania tego typu równania bez konieczności stosowania punktu 1.
+
+
+NLS -- non-linear least squares czyli nieliniowa metoda najmniejszych kwadratów
+
+```{r}
+model1_nls <- nls(formula = P ~ gamma*K^alpha*L^beta,
+                  data = dane_cd,
+                  start = c(gamma = 1, alpha = 0.5, beta = 0.5))
+summary(model1_nls)
+```
+
+Strategia z modelami nieliniowymi jest następująca:
+
+1. jeżeli możemy funkcję zlinearyzować to należy to spróbować zrobić aby dostać oszacowania (punkty) startowe do funkcji nieliniowych
+
+```{r}
+parametry <- as.numeric(coef(model1))
+```
+
+2. uzyć wartości oszacowanych parametrów z punktu 1 jako start do funkcji nieliniowej
+
+```{r}
+model1_nls <- nls(formula = P ~ gamma*K^alpha*L^beta,
+                  data = dane_cd,
+                  start = c(gamma = exp(parametry[1]), 
+                            alpha = parametry[2], 
+                            beta = parametry[3]))
+summary(model1_nls)
+```
+
+Kolejny element strategii z modelami nieliniowymi jest zastosowanie róznych punktów startowych aby sprawdzić czy otrzymane wyniki są faktycznie najlepsze czyli osiągnięto minimin/maximum globalne, a nie lokalne.
+
+# Funkcja Tornquista I
+
+```{r}
+torq1 <- read_excel("../data-raw/regresja-ekonometria.xlsx", sheet = "nielin-tornquist1")
+torq1
+plot(torq1$X, torq1$Y)
+```
+
+$$
+Y = \frac{\alpha X}{X + \beta}
+$$
+
+Chcemy doporowadzić tę funkcję do postaci zlinearyzowanej
+
+$$
+Y^{-1} = \left( \frac{\alpha X}{X + \beta}\right)^{-1}
+$$
+
+$$
+\frac{1}{Y} = \frac{X+\beta}{\alpha X}
+$$
+
+$$
+\frac{1}{Y} = \frac{X}{\alpha X} + \frac{\beta}{\alpha X}
+$$
+
+$$
+\frac{1}{Y} = \frac{1}{\alpha} + \frac{\beta}{\alpha}\frac{1}{X}
+$$
+
+
+```{r}
+plot(1/torq1$X, 1/torq1$Y)
+```
+
+Szacujemy parametry modelu Tornquist'a I  wykorzystując postać zlinearyzowaną
+
+```{r}
+model_tornq_lin <- lm(formula = I(1/Y) ~ I(1/X), data = torq1)
+summary(model_tornq_lin)
+```
+
+$$
+\frac{1}{Y} = 0.005604 + 0.005682\frac{1}{X}
+$$
+
+Wracamy do oryginalnych wartości
+
+```{r}
+alpha <- 1/0.005604
+alpha
+```
+
+$$
+\frac{\beta}{\alpha} = 0.005682
+$$
+```{r}
+beta <- alpha*0.005682
+beta
+```
+
+Spróbujmy to samo zrobić ale z wykorzystaniem funkcji nls
+
+```{r}
+model_tornq <- nls(formula = Y ~ (alpha*X) / (X + beta),
+                   data = torq1,
+                   start = c(alpha = 1, beta = 1))
+summary(model_tornq)
+```
+
+```{r}
+model_tornq2 <- nls(formula = Y ~ (alpha*X) / (X + beta),
+                   data = torq1,
+                   start = c(alpha = alpha, beta = beta))
+summary(model_tornq2)
+```
+
+
+```{r}
+curve(253.3482*x/(x + 2.2123), from = 1, to = 100, xlab = "X", y = "Funkcja Tornquist 1", col = "red")
+curve(alpha*x/(x + beta), from = 1, to = 100, xlab = "X", y = "Funkcja Tornquist 1", add = T, col = "black")
+```
+
+
+## Funkcja logistyczna
+
+```{r}
+dane_logistyczna <- read_excel("../data-raw/regresja-ekonometria.xlsx", sheet = "logistyczna")
+dane_logistyczna
+plot(dane_logistyczna$t, dane_logistyczna$Y, type = "l", xlab = "czas", ylab = "cecha Y")
+```
+
+Model oparty na funkcji logistycznej możemy oszacować w sposób prosty wyłączenie z funkcją nls. Nie możemy doprowadzić tej funkcji do postaci zlinearyzowanej.
+
+W R mamy do tego specjalną funkcję, która nazywa się SSlogis, która przyjmuje następujące argumenty
+
+```
+SSlogis(X, A, m, s)
+```
+
+zgodnie z następującym wzorem
+
+$$
+Y = \frac{A}{1 + e^{(m - X)/s}}
+$$
+
+```{r}
+## punkty statowe
+getInitial(Y ~ SSlogis(t, A, x, s), data = dane_logistyczna)
+
+## oszacowane parametry
+model_logis <- nls(Y ~ SSlogis(t, A, x, s), data = dane_logistyczna)
+summary(model_logis)
+```
+
+```{r}
+params <- coef(model_logis)
+curve(params[1] / (1 + exp( (params[2] - x)/params[3])), from = 1, to  = 25, xlab = "t", y = "y")
+```
+
+```{r}
+model_logis2 <- nls(Y ~ SSlogis(t, A, x, s), data = dane_logistyczna[dane_logistyczna$t <= 5, ])
+
+params <- coef(model_logis)
+params2 <- coef(model_logis2)
+curve(params[1] / (1 + exp( (params[2] - x)/params[3])), from = 1, to  = 25, xlab = "t", y = "y")
+curve(params2[1] / (1 + exp( (params2[2] - x)/params2[3])), from = 1, to  = 25, xlab = "t", y = "y", add = T, col = "red")
+
+```
+
+## tornquist 2
+
+```{r}
+dane_torn2 <- read_excel("../data-raw/regresja-ekonometria.xlsx", sheet = "nielin-tornquist2")
+plot(dane_torn2$X, dane_torn2$Y)
+```
+
+
+```{r}
+model_tornq_model2 <- nls(formula = Y ~ alpha*(X - gamma)/(X + beta),
+                          data = dane_torn2,
+                          start = c(alpha=0.5, gamma = 0.5, beta = 0.5))
+summary(model_tornq_model2)
+```
+
+```{r}
+curve(4.6596*(x - 1.4006)/(x + 3.0973), from = 1, to = 10, xlab = "X")
+points(dane_torn2$X, dane_torn2$Y)
+```
+
