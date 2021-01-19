@@ -1,0 +1,196 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(readxl)
+library(tidyverse)
+```
+
+Zaczynamy od wczytnia danych
+
+```{r}
+dane <- read_excel("../data/test.xlsx")
+```
+
+## Exercise 1. 
+
+1	single
+2	married
+3	widow
+4	divorced 
+5	legal separation
+6	actual separation
+
+```{r}
+table(dane$fc11)
+```
+
+Odpowiedź: 1062 married persons took part in the survey (variable fc11).
+
+# Exercise 2. 
+
+The average age (variable age) of married persons (variable fc11) was ...........years
+
+```{r}
+dane_zwiazek <- dane %>% filter(fc11 == 2)
+mean(dane_zwiazek$age)
+```
+
+```{r}
+dane %>%
+  filter(fc11 == 2) %>%
+  summarise(m = mean(age))
+```
+
+```{r}
+aggregate(age ~ fc11, data = dane, FUN = mean)
+```
+
+```{r}
+mean(dane$age[dane$fc11 == 2])
+```
+
+
+The average age (variable age) of married persons (variable fc11) was 44.8 years
+
+# Exercise 3. 
+
+
+```{r}
+aggregate(fp65 ~ sex, data = dane, FUN = min)
+```
+
+```{r}
+dane %>%
+  filter(sex == 1) %>%
+  summarise(min = min(fp65),
+            max = max(fp65),
+            mean = mean(fp65),
+            sd = sd(fp65),
+            median = median(fp65))
+```
+
+Compute basic descripive statistics of income (variable fp65) (min, max, mean, standard deviaKon and median) for males (variable sex). [2p]
+
+Min=200
+Max= 30000
+Mean= 2251.423
+Sd= 1898.573
+Median=2000
+
+
+# Exercise 4. 
+
+Complete the following conKngency table, which contains informaKon about the number of respondents by class of locality (variable class) and the variable fp29 (What is more important in your life?).
+
+```{r}
+xtabs(~ class + fp29, dat = dane)
+```
+
+```{r}
+table(dane$class, dane$fp29)
+```
+
+```{r}
+dane %>%
+  count(class, fp29) %>%
+  spread(fp29, n)
+```
+
+# Exercise 5.
+
+Recode variable age into two levels: 1 – up to 35 years (including 35), 2 – above 35 years and fill in the table below with frequencies. [2p]
+
+
+```{r}
+dane$wiek <- ifelse(dane$age <= 35, 1, 2)
+xtabs(~ sex + wiek, dane)
+```
+
+# Exercise 6. 
+
+Complete informaKon about the percentage of respondents by marital status (variable fc11) by entering the appropriate values above each bar separately.
+
+```{r}
+table(dane$fc11) / nrow(dane) * 100
+```
+
+```{r}
+prop.table(table(dane$fc11))*100
+```
+
+```{r}
+dane %>%
+  count(fc11) %>%
+  mutate(p = n/sum(n)*100)
+```
+
+# Exercise 7. 
+
+Compute and interpret the Pearson coefficient of correlaKon between height (variable fp55) and weight (variable fp56) for males (variable sex) living in 500T+ ciKes (variable class).
+
+```{r}
+mez_city <- dane %>% filter(sex == 1, class == 1)
+cor(mez_city$fp55, mez_city$fp56)
+```
+
+```{r}
+dane %>% 
+  filter(sex == 1, class == 1) %>% 
+  summarise(cor = cor(fp55, fp56))
+```
+
+```{r}
+cor(dane[dane$sex ==1 & dane$class == 1, c("fp55", "fp56")], method = "pearson")
+```
+
+# Exercise 8. 
+
+QuarKles of height (variable fp55) for females (variable sex) are equal to: [2p] 
+
+Q1=...................... Q2=...................... Q3=......................
+
+
+```{r}
+quantile(x = dane$fp55[dane$sex == 2])
+```
+
+```{r}
+dane %>%
+  filter(sex == 2 ) %>%
+  summarise(q1 = quantile(fp55, probs = 0.25),
+            q2 = quantile(fp55, probs = 0.50),
+            q3 = quantile(fp55, probs = 0.75))
+```
+
+
+# Exercise 9. 
+
+```{r}
+rysuj_wykres <- function(zmienna) {
+  barplot(table(zmienna))
+}
+
+rysuj_wykres(dane$class)
+```
+
+# Exercise 10. 
+
+Write an R funcKon which for a given radius r returns the surface area of the ball
+
+
+```{r}
+licz_pow_i_obj <- function(r) {
+  
+  wynik <- c(pow = 4*pi*r^2, obj = 4/3*pi*r^3)
+  
+  return(wynik)
+}
+```
+
+```{r}
+licz_pow_i_obj(10)
+```
+
